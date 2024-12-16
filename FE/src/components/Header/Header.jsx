@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 
 function Header() {
   const [openMenu, setOpenMenu] = useState(false);
-  const user = true;
+  const user = false;
   const location = useLocation();
   const isProfilePage = location.pathname.includes("/profile");
   const classNameLeft = `left ${isProfilePage ? "profile-page-left" : ""}`;
