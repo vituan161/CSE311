@@ -1,0 +1,147 @@
+@import "../../color.scss";
+.new-post-form {
+  background-color: $light-sky-blue;
+  width: 70vw;
+  height: 650px;
+  border-radius: 10px;
+  border: 1px solid #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  &.active {
+    display: flex;
+  }
+  &.non-active {
+    display: none;
+  }
+  .sidebar {
+    flex: 15%;
+    background-color: white;
+  }
+  .form-content {
+    flex: 85%;
+    .information-section {
+      height: 100%;
+      overflow-y: scroll;
+
+      form {
+        display: flex;
+
+        height: 100%;
+
+        .left {
+          flex: 3;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          height: max-content;
+          .description {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            label {
+              font-size: 16px;
+              font-weight: 300;
+            }
+            input,
+            textarea {
+              border: 1px solid #bebebe;
+              border-radius: 5px;
+              padding: 15px;
+            }
+            input {
+              height: 35px;
+            }
+            textarea {
+              resize: none;
+            }
+          }
+          .category {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            select {
+              width: 90%;
+              height: 35px;
+            }
+          }
+          .price-section {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            input {
+              height: 35px;
+              padding: 15px;
+              border: 1px solid #bebebe;
+              border-radius: 5px;
+            }
+          }
+          .address-section {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+
+            input {
+              height: 35px;
+              padding: 15px;
+              border: 1px solid #bebebe;
+              border-radius: 5px;
+            }
+          }
+        }
+        .right {
+          flex: 3;
+          height: 100%;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          .form-actions {
+            display: flex;
+            gap: 50px;
+            justify-content: flex-end;
+            button {
+              height: 35px;
+              width: max-content;
+              padding: 0 15px;
+              border: none;
+              border-radius: 5px;
+              text-align: center;
+              font-weight: 300;
+              &:last-child:hover {
+                background-color: rgb(250, 38, 38);
+                color: white;
+                transition: 0.3s;
+              }
+            }
+          }
+          .upload-img {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+          }
+        }
+      }
+    }
+  }
+}

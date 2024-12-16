@@ -1,0 +1,117 @@
+.form {
+  height: 500px;
+  width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  background-color: #abd4fcc2;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+  h1 {
+    text-align: center;
+    font-size: 40px;
+    margin: 20px 0;
+  }
+
+  .input-box {
+    position: relative;
+    width: 80%;
+    margin: 20px 0;
+
+    input {
+      width: 100%;
+      height: 50px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 25px;
+      padding: 10px 15px 10px 45px;
+      font-size: 16px;
+      background-color: #fff;
+      color: #333;
+
+      &:focus {
+        outline: none;
+        border: 1px solid #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+    }
+
+    input::placeholder {
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.4);
+    }
+
+    .form-icon {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .signup-btn {
+    width: 80%;
+    height: 50px;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: orange;
+    color: #fff;
+    cursor: pointer;
+    margin: 20px 0;
+
+    &:hover {
+      background-color: rgb(204, 135, 8);
+      transition: 200ms ease-in-out;
+    }
+  }
+
+  .register-question {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+
+    a {
+      font-weight: 600;
+      color: #007bff;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  // Media query for small screens
+  @media (max-width: 600px) {
+    width: 90%;
+    height: auto;
+    padding: 20px;
+
+    h1 {
+      font-size: 30px;
+    }
+
+    .input-box input {
+      height: 45px;
+      font-size: 14px;
+      padding: 8px 10px 8px 40px;
+    }
+
+    .signup-btn {
+      height: 45px;
+      font-size: 16px;
+    }
+
+    .register-question {
+      font-size: 12px;
+    }
+  }
+}

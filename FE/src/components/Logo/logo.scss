@@ -1,0 +1,39 @@
+@import "..//..//responsive.scss";
+.logo {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 100px;
+  svg {
+    height: 40px;
+    @include lg {
+      min-width: 60px;
+    }
+    @include sm {
+      display: block;
+    }
+  }
+  .logo-text {
+    font-weight: bold;
+    font-size: 30px;
+    padding: 5px 0 5px 0;
+    @include lg {
+      font-size: 25px;
+    }
+
+    @include md {
+      display: none;
+    }
+    @include sm {
+      display: initial;
+      font-size: 20px;
+    }
+  }
+  span.logo-span-text {
+    color: rgb(47, 49, 198);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}

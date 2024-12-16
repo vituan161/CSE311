@@ -1,0 +1,68 @@
+@import "../../color.scss";
+@import "..//..//responsive.scss";
+.homePage {
+  display: flex;
+  background: $primary-color;
+
+  .textContainer {
+    flex: 3;
+    .wrapper {
+      padding-right: 50px;
+      display: flex;
+      flex-direction: column;
+      margin-top: 200px;
+      gap: 40px;
+      height: 90%;
+      @include sm {
+        gap: 20px;
+        align-items: center;
+        margin-top: 40px;
+        text-align: left;
+        overflow: hidden;
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 50px;
+        padding: 10px 15px;
+        text-transform: capitalize;
+        @include sm {
+          font-size: 30px;
+        }
+      }
+      p {
+        max-width: 70%;
+        padding: 10px 15px;
+        font-size: 18px;
+        @include sm {
+          font-size: 14px;
+          max-width: 100%;
+        }
+      }
+    }
+  }
+  .imgContainer {
+    height: 90vh;
+    flex: 2;
+    background-color: $light-sky-blue;
+    position: relative;
+    display: flex;
+    align-items: center;
+    img {
+      width: 130%;
+      position: absolute;
+      left: -15%;
+    }
+    @include lg {
+      background-color: $light-sky-blue;
+    }
+    @include md {
+      background-color: $primary-color;
+      display: none;
+    }
+    @include sm {
+      background-color: $primary-color;
+      display: none;
+    }
+  }
+}

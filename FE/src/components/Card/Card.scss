@@ -1,0 +1,92 @@
+@import "../../responsive.scss";
+@import "../../color.scss";
+.card {
+  display: flex;
+  gap: 20px;
+  @include sm {
+    flex-direction: column;
+  }
+  .imgContainer {
+    flex: 2;
+    height: 200px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
+  .textContainer {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #444;
+      transition: all 0.3s ease;
+
+      &:hover {
+        color: black;
+        scale: 101%;
+      }
+    }
+    .address {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #888;
+    }
+    .price {
+      font-size: 30px;
+      font-weight: 300;
+      max-width: max-content;
+      padding: 5px;
+      border-radius: 5px;
+      background-color: $light-sky-blue;
+    }
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .features {
+      display: flex;
+      gap: 20px;
+      font-size: 14px;
+
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: whitesmoke;
+      }
+    }
+    .icons {
+      display: flex;
+      gap: 20px;
+      .icon {
+        border: solid 1px #999;
+        padding: 2px 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background-color: lightgray;
+        }
+      }
+    }
+  }
+}

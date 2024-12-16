@@ -1,0 +1,29 @@
+@import "../../color.scss";
+@import "../../responsive.scss";
+.listPage {
+  display: flex;
+  background-color: $primary-color;
+  height: 100%;
+  overflow: hidden;
+  .listContainer {
+    flex: 3;
+    @include sm {
+      max-width: 100vw;
+    }
+    .wrapper {
+      height: 100%;
+      padding-right: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+      overflow-y: scroll;
+    }
+  }
+  .mapContainer {
+    flex: 2;
+    background-color: $light-sky-blue;
+    @include sm {
+      display: none;
+    }
+  }
+}
