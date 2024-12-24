@@ -118,12 +118,13 @@ namespace RealEstateBackEnd.Controllers
             //if the seller does not exist, create a new seller
             if (seller == null)
             {
-                seller = new Seller { UserId = Int32.Parse(userId) };
+                seller = new Seller { UserId = int.Parse(userId) };
                 _context.Seller.Add(seller);
                 await _context.SaveChangesAsync();
             }
             //set the seller id of the real estate to the id of the seller
             realEstate.SellerId = seller.Id;
+            realEstate.Seller = seller;
 
             // Check if prices are provided in the request
             if (realEstate.Prices != null && realEstate.Prices.Count > 0)
@@ -131,6 +132,8 @@ namespace RealEstateBackEnd.Controllers
                 foreach (var price in realEstate.Prices)
                 {
                     // Add each Price object to the context so they get created in the database
+                    price.RealEstateId = realEstate.Id;
+                    price.RealEstate = realEstate;
                     _context.Price.Add(price);
                 }
             }
@@ -154,7 +157,7 @@ namespace RealEstateBackEnd.Controllers
             _context.RealEstate.Remove(realEstate);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new {message = "Delete successfully"})
         }
 
         private bool RealEstateExists(int id)

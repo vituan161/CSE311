@@ -15,6 +15,6 @@ namespace RealEstateBackEnd.Models
 
         [ForeignKey(nameof(RealEstate))]
         public int RealEstateId { get; set; }
-        public RealEstate RealEstate { get; set; } = null!;
+        public RealEstate? RealEstate { get; set; } = null!;
     }
 }
