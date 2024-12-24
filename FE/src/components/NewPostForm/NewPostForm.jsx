@@ -11,7 +11,6 @@ function NewPostForm({ className, onClose }) {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Your form submission logic here
   };
 
   const handleKeyDown = (event) => {
