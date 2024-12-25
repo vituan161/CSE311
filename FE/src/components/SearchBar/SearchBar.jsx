@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./SearchBar.scss";
 
 const types = ["buy", "rent", "project"];
-const API_URL = "https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1";
+const API_URL = "https://open.oapi.vn/location/provinces?size=63";
 
 function SearchBar() {
   const [query, setQuery] = useState({
@@ -28,7 +28,8 @@ function SearchBar() {
         return response.json(); // Parse the JSON response
       })
       .then((data) => {
-        setProvinces(data.data.data);
+        setProvinces(data.data);
+        console.log(data.data);
       })
       .catch((err) => {
         console.log("Lỗi khi fetch:", err);
