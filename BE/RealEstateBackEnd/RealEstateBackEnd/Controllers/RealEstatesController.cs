@@ -43,6 +43,42 @@ namespace RealEstateBackEnd.Controllers
 
             return realEstate;
         }
+        [HttpGet("Filter")]
+        public async Task<ActionResult<IEnumerable<RealEstate>>> FilterRealEstates(
+           [FromQuery] RealEstateType? type,
+           [FromQuery] string? province,
+           [FromQuery] string? address,
+           [FromQuery] decimal? minPrice,
+           [FromQuery] decimal? maxPrice)
+        {
+            var query = _context.RealEstate.Include(r => r.Prices).AsQueryable();
+
+            if (type.HasValue)
+            {
+                query = query.Where(r => r.Type == type.Value);
+            }
+
+            if (!string.IsNullOrEmpty(province))
+            {
+                query = query.Where(r => r.Address.Contains(province, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrEmpty(address))
+            {
+                query = query.Where(r => r.Address.Contains(address, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (minPrice.HasValue || maxPrice.HasValue)
+            {
+                query = query.Where(r => r.Prices.Any(p =>
+                    (!minPrice.HasValue || p.PriceValue >= minPrice.Value) &&
+                    (!maxPrice.HasValue || p.PriceValue <= maxPrice.Value)));
+            }
+
+            var result = await query.ToListAsync();
+
+            return Ok(result);
+        }
 
         // PUT: api/RealEstates/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
