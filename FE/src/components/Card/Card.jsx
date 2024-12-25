@@ -21,11 +21,15 @@ function Card({ item }) {
           <div className="features">
             <div className="feature">
               <img src="./bed.png" alt="" />
-              <span>{item.bedroom} bedroom</span>
+              <span>
+                {item.bedroom} {item.bedroom > 1 ? "bedrooms" : "bedroom"}
+              </span>
             </div>
             <div className="feature">
               <img src="./bath.png" alt="" />
-              <span>{item.bathroom} bathroom</span>
+              <span>
+                {item.bathroom} {item.bathroom > 1 ? "bathrooms" : "bathroom"}
+              </span>
             </div>
           </div>
           <div className="icons">
