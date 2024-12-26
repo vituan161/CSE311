@@ -7,6 +7,12 @@ import Login from "./pages/login/login";
 import SinglePage from "./pages/singlePage/singlePage";
 import SignUp from "./pages/signup/signup";
 import ProfilePage from "./pages/profile/profilePage";
+<<<<<<< Updated upstream
+=======
+import NewsPage from "./pages/newsPage/newsPage";
+import Company from "./pages/company/Company";
+import PrivateRoute from "./components/PrivateRoute";
+>>>>>>> Stashed changes
 
 function App() {
   const router = createBrowserRouter([
@@ -49,6 +55,10 @@ function App() {
         {
           path: "/profile",
           element: <ProfilePage />,
+        },
+        {
+          path: "/company",
+          element: <Company />,
         },
       ],
     },

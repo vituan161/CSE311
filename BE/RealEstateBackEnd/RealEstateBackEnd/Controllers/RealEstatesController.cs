@@ -193,7 +193,7 @@ namespace RealEstateBackEnd.Controllers
             _context.RealEstate.Remove(realEstate);
             await _context.SaveChangesAsync();
 
-            return Ok(new {message = "Delete successfully"})
+            return Ok(new { message = "Delete successfully" });
         }
 
         private bool RealEstateExists(int id)
