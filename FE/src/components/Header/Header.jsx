@@ -20,8 +20,13 @@ function Header() {
         <Link to={"/sell"}>Sell</Link>
         <Link to={"/rent"}>Rent</Link>
         <Link to={"/project"}>Project</Link>
+<<<<<<< Updated upstream
         <a href="">Agents</a>
         <a href="">About Us</a>
+=======
+        <Link to={"/company"}>Company</Link>
+        <Link to={"/news"}>News</Link>
+>>>>>>> Stashed changes
       </div>
       <div className={classNameRight}>
         {user ? (
@@ -34,6 +39,17 @@ function Header() {
             <Link to={"/profile"} className="profile-btn">
               Profile
             </Link>
+<<<<<<< Updated upstream
+=======
+            <button
+              onClick={() => {
+                localStorage.clear();
+                navigateTo("/login");
+              }}
+            >
+              Logout
+            </button>
+>>>>>>> Stashed changes
           </div>
         ) : (
           <>

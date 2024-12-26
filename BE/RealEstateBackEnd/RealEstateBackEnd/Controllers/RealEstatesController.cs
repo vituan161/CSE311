@@ -43,10 +43,12 @@ namespace RealEstateBackEnd.Controllers
 
             return realEstate;
         }
+        // GET: api/Filter
         [HttpGet("Filter")]
         public async Task<ActionResult<IEnumerable<RealEstate>>> FilterRealEstates(
            [FromQuery] RealEstateType? type,
            [FromQuery] string? province,
+           [FromQuery] string? city,
            [FromQuery] string? address,
            [FromQuery] decimal? minPrice,
            [FromQuery] decimal? maxPrice)
@@ -60,12 +62,20 @@ namespace RealEstateBackEnd.Controllers
 
             if (!string.IsNullOrEmpty(province))
             {
-                query = query.Where(r => r.Address.Contains(province, StringComparison.OrdinalIgnoreCase));
+                var provinceLower = province.ToLower();
+                query = query.Where(r => r.Address.ToLower().Contains(provinceLower));
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                var cityLower = city.ToLower();
+                query = query.Where(r => r.Address.ToLower().Contains(cityLower));
             }
 
             if (!string.IsNullOrEmpty(address))
             {
-                query = query.Where(r => r.Address.Contains(address, StringComparison.OrdinalIgnoreCase));
+                var addressLower = address.ToLower();
+                query = query.Where(r => r.Address.ToLower().Contains(addressLower));
             }
 
             if (minPrice.HasValue || maxPrice.HasValue)
@@ -154,12 +164,13 @@ namespace RealEstateBackEnd.Controllers
             //if the seller does not exist, create a new seller
             if (seller == null)
             {
-                seller = new Seller { UserId = Int32.Parse(userId) };
+                seller = new Seller { UserId = int.Parse(userId) };
                 _context.Seller.Add(seller);
                 await _context.SaveChangesAsync();
             }
             //set the seller id of the real estate to the id of the seller
             realEstate.SellerId = seller.Id;
+            realEstate.Seller = seller;
 
             // Check if prices are provided in the request
             if (realEstate.Prices != null && realEstate.Prices.Count > 0)
@@ -167,6 +178,8 @@ namespace RealEstateBackEnd.Controllers
                 foreach (var price in realEstate.Prices)
                 {
                     // Add each Price object to the context so they get created in the database
+                    price.RealEstateId = realEstate.Id;
+                    price.RealEstate = realEstate;
                     _context.Price.Add(price);
                 }
             }
@@ -190,7 +203,7 @@ namespace RealEstateBackEnd.Controllers
             _context.RealEstate.Remove(realEstate);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new { message = "Delete successfully" });
         }
 
         private bool RealEstateExists(int id)

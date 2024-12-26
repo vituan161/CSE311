@@ -14,12 +14,20 @@ builder.Services.AddDbContext<RealEstateBackEndContext>(options =>
 
 // Add services to the container.
 
-builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<AppUser>().AddEntityFrameworkStores<RealEstateBackEndContext>();
-
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+var RealEstateOrigin = "_RealEstateOrigin";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: RealEstateOrigin,
+               policy =>
+               {
+                   policy.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+               });
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -31,6 +39,10 @@ builder.Services.AddSwaggerGen(options =>
     });
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
 
 builder.Services.AddAuthentication(options =>
 {
@@ -39,6 +51,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
+    var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not found in configuration.");
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -47,9 +60,14 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
 });
+
+
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<AppUser>().AddEntityFrameworkStores<RealEstateBackEndContext>();
+
 
 var app = builder.Build();
 
@@ -59,7 +77,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(RealEstateOrigin);
 app.MapIdentityApi<AppUser>();
 
 app.UseHttpsRedirection();

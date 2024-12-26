@@ -27,8 +27,8 @@ namespace RealEstateBackEnd.Models
         public Plan? Plan { get; set; }
 
         [ForeignKey(nameof(Seller))]
-        public int SellerId { get; set; }
-        public Seller Seller { get; set; } = null!;
+        public int? SellerId { get; set; }
+        public Seller? Seller { get; set; } = null!;
     }
 
     public enum RealEstateType
