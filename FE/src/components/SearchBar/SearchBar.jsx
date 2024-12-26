@@ -56,11 +56,7 @@ function SearchBar() {
       <form action="">
         <select name="city-location" id="">
           {provinces.map((province) => (
-            <option
-              key={province.id}
-              value={province.id}
-              selected={province.name === "Bình Dương"}
-            >
+            <option key={province.id} value={province.id}>
               {province.name}
             </option>
           ))}

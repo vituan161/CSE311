@@ -105,29 +105,6 @@ export const listData = [
   },
 ];
 
-export const singlePostData = {
-  id: 1,
-  title: "A Cozy Apartment Near Hoan Kiem Lake",
-  price: 1000,
-  images: [
-    "https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/276625/pexels-photo-276625.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/271816/pexels-photo-271816.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  ],
-  bedRooms: 2,
-  bathroom: 1,
-  size: 861,
-  latitude: 21.0285,
-  longitude: 105.8542,
-  city: "Hanoi",
-  address: "45 Hang Dau, Hoan Kiem, Hanoi",
-  school: "250m away",
-  bus: "100m away",
-  restaurant: "50m away",
-  description:
-    "     This charming apartment is located near the iconic Hoan Kiem Lake in Hanoi, offering a mix of modern amenities and cultural charm. Perfect for professionals or small families, with excellent access to schools, transportation, and dining.",
-};
 export const singlePostDataList = [
   {
     id: 1,

@@ -34,7 +34,8 @@ namespace RealEstateBackEnd.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<RealEstate>> GetRealEstate(int id)
         {
-            var realEstate = await _context.RealEstate.FindAsync(id);
+            //var realEstate = await _context.RealEstate.FindAsync(id);
+            var realEstate = await _context.RealEstate.Include(r => r.Prices).FirstOrDefaultAsync(r => r.Id == id);
 
             if (realEstate == null)
             {
@@ -210,6 +211,7 @@ namespace RealEstateBackEnd.Controllers
         public async Task<IActionResult> DeleteRealEstate(int id)
         {
             var realEstate = await _context.RealEstate.FindAsync(id);
+           
             if (realEstate == null)
             {
                 return NotFound();
