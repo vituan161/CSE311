@@ -29,7 +29,6 @@ function SearchBar() {
       })
       .then((data) => {
         setProvinces(data.data);
-        console.log(data.data);
       })
       .catch((err) => {
         console.log("Lỗi khi fetch:", err);

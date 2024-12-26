@@ -149,24 +149,21 @@ nav {
         background-color: orange;
         border-radius: 5px;
       }
-<<<<<<< Updated upstream
-=======
       button {
         background-color: orange;
         border-radius: 5px;
         height: 50px;
-        padding: 12px 24px;
+        padding: 5px;
         font-weight: bold;
         font-size: 22px;
         border: none;
         margin-right: 10px;
         &:hover {
           cursor: pointer;
-          scale: 1.06;
+          scale: 1.05;
           transition: all 0.4s ease;
         }
       }
->>>>>>> Stashed changes
     }
   }
   .profile-page-left {

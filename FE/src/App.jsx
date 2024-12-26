@@ -1,3 +1,4 @@
+import React from "react";
 import HomePage from "./pages/homePage/homePage";
 import ListPage from "./pages/listPage/listPage";
 import "../src/components/Footer/Footer.css";
@@ -7,12 +8,9 @@ import Login from "./pages/login/login";
 import SinglePage from "./pages/singlePage/singlePage";
 import SignUp from "./pages/signup/signup";
 import ProfilePage from "./pages/profile/profilePage";
-<<<<<<< Updated upstream
-=======
 import NewsPage from "./pages/newsPage/newsPage";
 import Company from "./pages/company/Company";
 import PrivateRoute from "./components/PrivateRoute";
->>>>>>> Stashed changes
 
 function App() {
   const router = createBrowserRouter([
@@ -54,7 +52,15 @@ function App() {
         },
         {
           path: "/profile",
-          element: <ProfilePage />,
+          element: (
+            <PrivateRoute>
+              <ProfilePage />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: "/news",
+          element: <NewsPage />,
         },
         {
           path: "/company",

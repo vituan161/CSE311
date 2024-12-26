@@ -16,6 +16,10 @@ builder.Services.AddDbContext<RealEstateBackEndContext>(options =>
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
 var RealEstateOrigin = "_RealEstateOrigin";
 builder.Services.AddCors(options =>
 {
