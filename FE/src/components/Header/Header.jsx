@@ -1,15 +1,16 @@
 import { useState } from "react";
 import Logo from "../Logo/logo";
 import "./Header.scss";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Header() {
   const [openMenu, setOpenMenu] = useState(false);
-  const user = true;
+  const user = localStorage.getItem("user");
   const location = useLocation();
   const isProfilePage = location.pathname.includes("/profile");
   const classNameLeft = `left ${isProfilePage ? "profile-page-left" : ""}`;
   const classNameRight = `right ${isProfilePage ? "profile-page-right" : ""}`;
+  const navigateTo = useNavigate();
   return (
     <nav>
       <div className={classNameLeft}>
@@ -20,13 +21,8 @@ function Header() {
         <Link to={"/sell"}>Sell</Link>
         <Link to={"/rent"}>Rent</Link>
         <Link to={"/project"}>Project</Link>
-<<<<<<< Updated upstream
-        <a href="">Agents</a>
-        <a href="">About Us</a>
-=======
         <Link to={"/company"}>Company</Link>
         <Link to={"/news"}>News</Link>
->>>>>>> Stashed changes
       </div>
       <div className={classNameRight}>
         {user ? (
@@ -39,17 +35,14 @@ function Header() {
             <Link to={"/profile"} className="profile-btn">
               Profile
             </Link>
-<<<<<<< Updated upstream
-=======
             <button
               onClick={() => {
-                localStorage.clear();
+                localStorage.removeItem("user");
                 navigateTo("/login");
               }}
             >
               Logout
             </button>
->>>>>>> Stashed changes
           </div>
         ) : (
           <>
