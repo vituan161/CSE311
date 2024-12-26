@@ -9,6 +9,7 @@ import SinglePage from "./pages/singlePage/singlePage";
 import SignUp from "./pages/signup/signup";
 import ProfilePage from "./pages/profile/profilePage";
 import NewsPage from "./pages/newsPage/newsPage";
+import Company from "./pages/company/Company";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -60,6 +61,10 @@ function App() {
         {
           path: "/news",
           element: <NewsPage />,
+        },
+        {
+          path: "/company",
+          element: <Company />,
         },
       ],
     },

@@ -21,7 +21,7 @@ function Header() {
         <Link to={"/sell"}>Sell</Link>
         <Link to={"/rent"}>Rent</Link>
         <Link to={"/project"}>Project</Link>
-        <Link to={"/agents"}>Agents</Link>
+        <Link to={"/company"}>Company</Link>
         <Link to={"/news"}>News</Link>
       </div>
       <div className={classNameRight}>

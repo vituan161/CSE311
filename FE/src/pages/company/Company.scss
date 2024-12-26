@@ -1,0 +1,13 @@
+@import "../../color.scss";
+.company {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  .left {
+    flex: 3;
+  }
+  .right {
+    flex: 2;
+    background-color: $light-sky-blue;
+  }
+}
