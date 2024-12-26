@@ -80,11 +80,36 @@ namespace RealEstateBackEnd.Controllers
             return Ok(result);
         }
 
+        [HttpGet("MyRealEstate"),Authorize]
+        public async Task<ActionResult<IEnumerable<RealEstate>>> GetMyRealEstate()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            int id = int.Parse(userId);
+            var realEstates = await _context.RealEstate.Include(r => r.Prices).Where(r => r.Seller.UserId == id).ToListAsync();
+
+            if (realEstates == null)
+            {
+                return NotFound();
+            }
+
+            return realEstates;
+        }
+
         // PUT: api/RealEstates/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}"),Authorize]
-        public async Task<IActionResult> PutRealEstate(int id, RealEstate realEstate)
+        public async Task<IActionResult> PutRealEstate(RealEstate realEstate)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            int id = int.Parse(userId);
             if (id != realEstate.Id)
             {
                 return BadRequest();
@@ -177,7 +202,7 @@ namespace RealEstateBackEnd.Controllers
             _context.RealEstate.Add(realEstate);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRealEstate", new { id = realEstate.Id }, realEstate);
+            return Ok(new { message = "Create realestate successfully" });
         }
 
         // DELETE: api/RealEstates/5

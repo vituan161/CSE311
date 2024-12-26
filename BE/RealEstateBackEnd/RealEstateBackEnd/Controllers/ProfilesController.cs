@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -43,16 +44,31 @@ namespace RealEstateBackEnd.Controllers
             return profile;
         }
 
+        [HttpGet("GetMyProfile")]
+        public async Task<ActionResult<Profile>> GetMyProfile()
+        {
+            var usesId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (usesId == null)
+            {
+                return Unauthorized();
+            }
+            int id = int.Parse(usesId);
+            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.AppUserId == id);
+            return profile;
+        }
+
+
         // PUT: api/Profiles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
-        public async Task<IActionResult> PutProfile(int id, Profile profile)
+        [HttpPut, Authorize]
+        public async Task<IActionResult> PutProfile(Profile profile)
         {
-            if (id != profile.Id)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
             {
-                return BadRequest();
+                return Unauthorized();
             }
-
+            int id = int.Parse(userId);
             _context.Entry(profile).State = EntityState.Modified;
 
             try
@@ -71,7 +87,7 @@ namespace RealEstateBackEnd.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(new { message = "Profile updated successfully" });
         }
 
         // POST: api/Profiles
