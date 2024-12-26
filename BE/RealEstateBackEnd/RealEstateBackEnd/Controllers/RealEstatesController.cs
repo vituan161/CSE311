@@ -43,10 +43,12 @@ namespace RealEstateBackEnd.Controllers
 
             return realEstate;
         }
+        // GET: api/Filter
         [HttpGet("Filter")]
         public async Task<ActionResult<IEnumerable<RealEstate>>> FilterRealEstates(
            [FromQuery] RealEstateType? type,
            [FromQuery] string? province,
+           [FromQuery] string? city,
            [FromQuery] string? address,
            [FromQuery] decimal? minPrice,
            [FromQuery] decimal? maxPrice)
@@ -60,12 +62,20 @@ namespace RealEstateBackEnd.Controllers
 
             if (!string.IsNullOrEmpty(province))
             {
-                query = query.Where(r => r.Address.Contains(province, StringComparison.OrdinalIgnoreCase));
+                var provinceLower = province.ToLower();
+                query = query.Where(r => r.Address.ToLower().Contains(provinceLower));
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                var cityLower = city.ToLower();
+                query = query.Where(r => r.Address.ToLower().Contains(cityLower));
             }
 
             if (!string.IsNullOrEmpty(address))
             {
-                query = query.Where(r => r.Address.Contains(address, StringComparison.OrdinalIgnoreCase));
+                var addressLower = address.ToLower();
+                query = query.Where(r => r.Address.ToLower().Contains(addressLower));
             }
 
             if (minPrice.HasValue || maxPrice.HasValue)
