@@ -2,12 +2,28 @@
 .company {
   display: flex;
   height: 100%;
-  overflow: hidden;
+  overflow-y: hidden;
+
   .left {
     flex: 3;
+    .wrapper {
+      height: 100%;
+      padding-right: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+      overflow-y: scroll;
+    }
   }
   .right {
     flex: 2;
     background-color: $light-sky-blue;
+    position: relative;
+    display: flex;
+    align-items: center;
+    img {
+      width: 100%;
+      position: absolute;
+    }
   }
 }
