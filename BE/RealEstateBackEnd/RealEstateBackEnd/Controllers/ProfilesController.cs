@@ -44,7 +44,7 @@ namespace RealEstateBackEnd.Controllers
             return profile;
         }
 
-        [HttpGet("GetMyProfile")]
+        [HttpGet("GetMyProfile"),Authorize]
         public async Task<ActionResult<Profile>> GetMyProfile()
         {
             var usesId = User.FindFirstValue(ClaimTypes.NameIdentifier);

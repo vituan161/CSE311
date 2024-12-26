@@ -4,9 +4,14 @@ import List from "../../components/List/List";
 import { listData } from "../../lib/dummydata";
 import UpdateProfileForm from "../../components/UpdateProfileForm/UpdateProfileForm";
 import NewPostForm from "../../components/NewPostForm/NewPostForm";
+import { useSelector } from "react-redux";
+import handleGetProfile from "../../lib/utilities";
 
 function ProfilePage() {
   const [openForm, setOpenForm] = useState(false);
+  const token = useSelector((state) => state.token);
+  const profile = useSelector((state) => state.profile);
+  
   const activeForm = () => {
     setOpenForm(true);
   };

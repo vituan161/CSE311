@@ -11,7 +11,6 @@ import ProfilePage from "./pages/profile/profilePage";
 import NewsPage from "./pages/newsPage/newsPage";
 import Company from "./pages/company/Company";
 import PrivateRoute from "./components/PrivateRoute";
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -63,8 +62,8 @@ function App() {
           element: <NewsPage />,
         },
         {
-          path: "/company",
-          element: <Company />,
+          path: "/news",
+          element: <NewsPage />,
         },
       ],
     },

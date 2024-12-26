@@ -18,6 +18,7 @@ const login = async (email, password) => {
       console.log("Token:", response.data.accessToken);
       localStorage.setItem("jwt", response.data.accessToken);
       localStorage.setItem("user", true);
+      getProfile(response.data.accessToken);
       return response.data;
     }
   } catch (error) {
@@ -26,4 +27,21 @@ const login = async (email, password) => {
     throw error;
   }
 };
+
+const getProfile = async (token) => {
+  try {
+    const response = await apiClient.get("/Profiles/GetMyProfile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return response.data;
+  } catch (error) {
+    console.error("Get profile failed:", error);
+    console.log("Error:", error.response);
+    throw error;
+  }
+};
+
+export { login, getProfile };
 export default login;
