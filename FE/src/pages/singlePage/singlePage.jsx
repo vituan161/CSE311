@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./singlePage.scss";
 import Slider from "../../components/Slider/Slider";
 import Map from "../../components/Map/Map";
-import { singlePostDataList, userData } from "../../lib/dummydata";
+
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -56,8 +56,8 @@ function SinglePage() {
                 <div className="price">{price}$</div>
               </div>
               <div className="user">
-                <img src={userData.img} alt="" />
-                <span>{userData.name}</span>
+                <img src="" alt="" />
+                <span>{}</span>
               </div>
             </div>
             <div className="bottom">

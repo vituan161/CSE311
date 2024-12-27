@@ -1,11 +1,10 @@
 import React from "react";
 import "./List.scss";
-import { listData } from "../../lib/dummydata";
 import { useState, useEffect } from "react";
 import Card from "../Card/Card";
 import axios from "axios";
 import { useSelector } from "react-redux";
-function List({ data }) {
+function List() {
   const [listData, setListData] = useState([]);
   const token = useSelector((state) => state.token);
   const getCompany = async () => {
