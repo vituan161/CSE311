@@ -47,6 +47,7 @@ namespace RealEstateBackEnd.Controllers
         [HttpGet("Filter")]
         public async Task<ActionResult<IEnumerable<RealEstate>>> FilterRealEstates(
            [FromQuery] RealEstateType? type,
+           [FromQuery] Choice? choice,
            [FromQuery] string? province,
            [FromQuery] string? city,
            [FromQuery] string? address,
@@ -55,10 +56,16 @@ namespace RealEstateBackEnd.Controllers
         {
             var query = _context.RealEstate.Include(r => r.Prices).AsQueryable();
 
+            if (choice.HasValue)
+            {
+                query = query.Where(r => r.choices == choice.Value);
+            }
+
             if (type.HasValue)
             {
                 query = query.Where(r => r.Type == type.Value);
             }
+
 
             if (!string.IsNullOrEmpty(province))
             {
@@ -118,6 +125,8 @@ namespace RealEstateBackEnd.Controllers
             currentRealEstate.Type = realEstate.Type;
             currentRealEstate.DateExprired = realEstate.DateExprired;
             currentRealEstate.Status = realEstate.Status;
+            currentRealEstate.choices = realEstate.choices;
+            currentRealEstate.Location=realEstate.Location;
 
             //check if the prices are provided in the request
             if (realEstate.Prices != null && realEstate.Prices.Count > 0)

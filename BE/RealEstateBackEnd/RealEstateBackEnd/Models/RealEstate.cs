@@ -29,6 +29,9 @@ namespace RealEstateBackEnd.Models
         [ForeignKey(nameof(Seller))]
         public int? SellerId { get; set; }
         public Seller? Seller { get; set; } = null!;
+        public Choice choices { get; set; }
+
+        public decimal[] Location { get; set; } = new decimal[2];
     }
 
     public enum RealEstateType
@@ -36,5 +39,11 @@ namespace RealEstateBackEnd.Models
         Apartment,
         House,
         Land
+    }
+    public enum Choice
+    {
+        Rent,
+        Sell,
+        Project
     }
 }
