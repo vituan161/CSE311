@@ -1,6 +1,6 @@
-import { getProfile } from "./api";
-import { setToken,resetToken } from "../Store/feature/TokenSlide";
-import { resetProfile,setFirstName, setLastName, setAddress, setDoB, setPhone, setRating, setIdentiticationNumber, setDescription, setImageURL } from "../Store/feature/ProfileSlide";
+import { getProfile, putProfile } from "./api";
+import { setToken, resetToken } from "../Store/feature/TokenSlide";
+import { resetProfile, setFirstName, setLastName, setAddress, setDoB, setPhone, setRating, setIdentiticationNumber, setDescription, setImageURL } from "../Store/feature/ProfileSlide";
 import { resetAccount, setRole, setUserName, setEmail, setIsOfficial } from "../Store/feature/AccountSlide";
 const handleToken = async (token, dispatch) => {
     dispatch(setToken(token));
@@ -18,34 +18,38 @@ const handleGetProfile = async (token, dispatch) => {
         dispatch(setRating(response.rating));
         dispatch(setIdentiticationNumber(response.identiticationNumber));
         dispatch(setDescription(response.description));
-        handleGetAccount(response.appUser,dispatch);
+        handleGetAccount(response.appUser, dispatch);
     } catch (error) {
         window.alert("Get profile failed");
     }
 }
 
-const handleGetAccount = async (account,dispatch) => {
+const handleGetAccount = async (account, dispatch) => {
     try {
         dispatch(setRole(account.role));
         dispatch(setUserName(account.userName));
         dispatch(setEmail(account.email));
         dispatch(setIsOfficial(account.isOfficial));
-    }catch (error) {
+    } catch (error) {
         window.alert("Get account failed");
     }
 }
 
-const handleSetProfile = async (e) => {
-    e.preventDefault();
+const handlePutProfile = async (token, dispatch, profile) => {
     try {
-        dispatch(setFirstName(response.firstName));
-        dispatch(setLastName(response.lastName));
-        dispatch(setAddress(response.address));
-        dispatch(setDoB(response.dob));
-        dispatch(setPhone(response.phone));
-        dispatch(setRating(response.rating));
-        dispatch(setIdentiticationNumber(response.identificationNumber));
-        dispatch(setDescription(response.description));
+        console.log("post profile");
+        console.log(profile);
+        console.log(token);
+        const response = await putProfile(token, profile);
+        dispatch(setFirstName(profile.FirstName));
+        dispatch(setLastName(profile.LastName));
+        dispatch(setAddress(profile.Address));
+        dispatch(setImageURL(profile.ImageURL));
+        dispatch(setDoB(profile.DoB));
+        dispatch(setPhone(profile.PhoneNumber));
+        dispatch(setRating(profile.rating));
+        dispatch(setIdentiticationNumber(profile.IdentiticationNumber));
+        dispatch(setDescription(profile.Description));
     } catch (error) {
         window.alert("Set profile failed");
     }
@@ -58,5 +62,5 @@ const logout = async (dispatch) => {
     localStorage.removeItem("user");
 }
 
-export { handleToken, handleGetProfile, handleSetProfile,logout };
+export { handleToken, handleGetProfile, handlePutProfile, logout };
 export default handleGetProfile;

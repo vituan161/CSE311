@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./UpdateProfileForm.scss";
-import { width } from "@fortawesome/free-solid-svg-icons/fa0";
+import { handlePutProfile } from "../../lib/utilities";
 function UpdateProfileForm({ className, onClose }) {
+  const token = useSelector((state) => state.token);
   const [activeSection, setActiveSection] = useState("account");
   const profile = useSelector((state) => state.profile);
   const account = useSelector((state) => state.account);
@@ -17,7 +18,7 @@ function UpdateProfileForm({ className, onClose }) {
   const [email, setEmail] = useState(account.email);
   const [phoneNumber, setPhoneNumber] = useState(profile.Phone);
   const [bio, setBio] = useState(profile.Description);
-
+  const dispatch = useDispatch();
   const handleUpdate = async (e) => {
     e.preventDefault();
     const data = {
@@ -27,10 +28,12 @@ function UpdateProfileForm({ className, onClose }) {
       DoB: DoB,
       IdentiticationNumber: IdentificationNumber,
       Address: address,
-      Phone: phoneNumber,
+      PhoneNumber: phoneNumber,
       Description: bio,
     };
-    console.log(data);
+    await handlePutProfile(token.value,dispatch,data);
+    handleCancel();
+    window.alert("Update successfully");
   };
 
   const resetlocalValue = () => {
@@ -149,7 +152,13 @@ function UpdateProfileForm({ className, onClose }) {
                 <div className="form-row">
                   <div className="form-group">
                     <label htmlFor="ImageURL">Avatar ImageURL</label>
-                    <div style={{flex:1, display: "flex", flexDirection: "collumn" }}>
+                    <div
+                      style={{
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "collumn",
+                      }}
+                    >
                       <img
                         src={ImageURL}
                         alt=""

@@ -5,7 +5,6 @@ import { listData } from "../../lib/dummydata";
 import UpdateProfileForm from "../../components/UpdateProfileForm/UpdateProfileForm";
 import NewPostForm from "../../components/NewPostForm/NewPostForm";
 import { useSelector } from "react-redux";
-import handleGetProfile from "../../lib/utilities";
 
 function ProfilePage() {
   const [openForm, setOpenForm] = useState(false);
@@ -46,16 +45,24 @@ function ProfilePage() {
             <button onClick={activeForm}>Update Profile</button>
           </div>
           <div className="info">
-            <span>
-              Avatar:
-              <img src={profile.ImageURL[0]} alt="" />
-            </span>
-            <span>
-              User Name: <b>{account.userName}</b>
-            </span>
-            <span>
-              Email: <b>{account.email}</b>
-            </span>
+            <div className="infowrap">
+              <span>
+                Avatar:
+                <img src={profile.ImageURL[0]} alt="" />
+              </span>
+              <span>
+                User Name: <b>{account.userName}</b>
+              </span>
+              <span>
+                Email: <b>{account.email}</b>
+              </span>
+            </div>
+            <div className="description">
+              <h3>Description:</h3>
+              <span>
+                {profile.Description}
+              </span>
+            </div>
           </div>
           <div className="title">
             <h1>My List</h1>

@@ -42,5 +42,22 @@ const getProfile = async (token) => {
   }
 };
 
-export { login, getProfile };
+const putProfile = async (token, profile) => {
+  try {
+    const response = await apiClient.put("/Profiles", profile, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    console.error("Post profile failed:", error);
+    console.log("Error:", error.response);
+    window.alert("Update profile failed");
+    throw error;
+  }
+};
+
+export { login, getProfile,putProfile };
 export default login;
