@@ -53,7 +53,11 @@ namespace RealEstateBackEnd.Controllers
                 return Unauthorized();
             }
             int id = int.Parse(usesId);
-            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.AppUserId == id);
+            var profile = await _context.Profile.Include(p => p.AppUser).ThenInclude(u => u.Follow).FirstOrDefaultAsync(p => p.AppUserId == id);
+            if(profile == null)
+            {
+                return NotFound();
+            }
             return profile;
         }
 
@@ -61,7 +65,7 @@ namespace RealEstateBackEnd.Controllers
         // PUT: api/Profiles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut, Authorize]
-        public async Task<IActionResult> PutProfile(Profile profile)
+        public async Task<IActionResult> PutProfile(Profile Updatedprofile)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
@@ -69,7 +73,14 @@ namespace RealEstateBackEnd.Controllers
                 return Unauthorized();
             }
             int id = int.Parse(userId);
-            _context.Entry(profile).State = EntityState.Modified;
+            Profile currentProfile = await _context.Profile.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+            if(currentProfile == null)
+            {
+                return NotFound();
+            }
+            Updatedprofile.Id = id;
+            Updatedprofile.AppUserId = currentProfile.AppUserId;
+            _context.Entry(Updatedprofile).State = EntityState.Modified;
 
             try
             {

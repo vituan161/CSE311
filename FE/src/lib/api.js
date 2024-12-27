@@ -15,7 +15,6 @@ const login = async (email, password) => {
     });
 
     if (response.status === 200) {
-      console.log("Token:", response.data.accessToken);
       localStorage.setItem("jwt", response.data.accessToken);
       localStorage.setItem("user", true);
       getProfile(response.data.accessToken);

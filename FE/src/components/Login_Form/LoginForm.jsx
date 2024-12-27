@@ -11,7 +11,6 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.token);
   const mail = "thuan@gmail.com";
   const pass = "Thuan123@";
   let navigateTo = useNavigate();
@@ -22,8 +21,8 @@ function LoginForm() {
       const response = await login(email, password);
       if (response) {
         window.alert("Login successfully");
-        handleToken(response.accessToken, dispatch);
-        handleGetProfile(token.value,dispatch);
+        await handleToken(response.accessToken, dispatch);
+        await handleGetProfile(response.accessToken,dispatch);
         navigateTo("/");
       }
     } catch (error) {

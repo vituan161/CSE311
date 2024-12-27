@@ -39,7 +39,7 @@ namespace RealEstateAPI.Controllers
         {
             var user = new AppUser
             {
-                UserName = model.Email,
+                UserName = model.LastName + model.FirstName,
                 PasswordHash = model.Password,
                 Email = model.Email,
                 Profile = new Profile
