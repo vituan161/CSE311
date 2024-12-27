@@ -25,6 +25,7 @@
         width: 50px;
         &.right {
           transform: rotate(180deg);
+          background-color: transparent;
         }
       }
     }
@@ -68,5 +69,8 @@
     img {
       height: 100px;
     }
+  }
+  .no-scroll {
+    overflow: hidden;
   }
 }

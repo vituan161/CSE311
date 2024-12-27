@@ -2,7 +2,7 @@ import { useState } from "react";
 import Logo from "../Logo/logo";
 import "./Header.scss";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../lib/utilities";
 
 function Header() {
@@ -31,11 +31,8 @@ function Header() {
       <div className={classNameRight}>
         {user ? (
           <div className="user">
-            <img
-              src= {profile.ImageURL[0]}
-              alt=""
-            />
-            <span>{profile.LastName +" "+profile.FirstName}</span>
+            <img src={profile.ImageURL[0]} alt="" />
+            <span>{profile.LastName + " " + profile.FirstName} </span>
             <Link to={"/profile"} className="profile-btn">
               Profile
             </Link>

@@ -6,10 +6,7 @@ function CompanyCard({ item }) {
     <div className="company-item">
       <div className="img-container">
         <Link to={`/company/${item.id}`}>
-          <img
-            src="https://file4.batdongsan.com.vn/resize/200x200/2024/11/13/20241113174853-2eda.jpg"
-            alt=""
-          />
+          <img src={item.imageurl[0]} alt="" />
         </Link>
       </div>
 
