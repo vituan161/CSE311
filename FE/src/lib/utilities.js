@@ -1,26 +1,37 @@
 import { getProfile } from "./api";
-import { setToken } from "../Store/feature/TokenSlide";
-import { setFirstName, setLastName, setAddress, setDoB, setPhone, setRating, setIdentiticationNumber, setDescription } from "../Store/feature/ProfileSlide";
-
-const handleToken = (token, dispatch) => {
+import { setToken,resetToken } from "../Store/feature/TokenSlide";
+import { resetProfile,setFirstName, setLastName, setAddress, setDoB, setPhone, setRating, setIdentiticationNumber, setDescription, setImageURL } from "../Store/feature/ProfileSlide";
+import { resetAccount, setRole, setUserName, setEmail, setIsOfficial } from "../Store/feature/AccountSlide";
+const handleToken = async (token, dispatch) => {
     dispatch(setToken(token));
 };
 
 const handleGetProfile = async (token, dispatch) => {
     try {
-        console.log(token);
         const response = await getProfile(token);
-        console.log(response);
         dispatch(setFirstName(response.firstName));
         dispatch(setLastName(response.lastName));
         dispatch(setAddress(response.address));
-        dispatch(setDoB(response.dob));
-        dispatch(setPhone(response.phone));
+        dispatch(setImageURL(response.imageURL));
+        dispatch(setDoB(response.doB));
+        dispatch(setPhone(response.phoneNumber));
         dispatch(setRating(response.rating));
-        dispatch(setIdentiticationNumber(response.identificationNumber));
+        dispatch(setIdentiticationNumber(response.identiticationNumber));
         dispatch(setDescription(response.description));
+        handleGetAccount(response.appUser,dispatch);
     } catch (error) {
         window.alert("Get profile failed");
+    }
+}
+
+const handleGetAccount = async (account,dispatch) => {
+    try {
+        dispatch(setRole(account.role));
+        dispatch(setUserName(account.userName));
+        dispatch(setEmail(account.email));
+        dispatch(setIsOfficial(account.isOfficial));
+    }catch (error) {
+        window.alert("Get account failed");
     }
 }
 
@@ -40,5 +51,12 @@ const handleSetProfile = async (e) => {
     }
 }
 
-export { handleToken, handleGetProfile, handleSetProfile };
+const logout = async (dispatch) => {
+    dispatch(resetToken());
+    dispatch(resetProfile());
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("user");
+}
+
+export { handleToken, handleGetProfile, handleSetProfile,logout };
 export default handleGetProfile;

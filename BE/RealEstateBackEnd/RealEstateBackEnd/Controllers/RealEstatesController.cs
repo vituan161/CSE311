@@ -34,7 +34,7 @@ namespace RealEstateBackEnd.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<RealEstate>> GetRealEstate(int id)
         {
-            var realEstate = await _context.RealEstate.FindAsync(id);
+            var realEstate = await _context.RealEstate.Include(r => r.Prices).FirstOrDefaultAsync(r => r.Id == id);
 
             if (realEstate == null)
             {
@@ -80,7 +80,7 @@ namespace RealEstateBackEnd.Controllers
             return Ok(result);
         }
 
-        [HttpGet("MyRealEstate"),Authorize]
+        [HttpGet("MyRealEstate"), Authorize]
         public async Task<ActionResult<IEnumerable<RealEstate>>> GetMyRealEstate()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -102,14 +102,8 @@ namespace RealEstateBackEnd.Controllers
         // PUT: api/RealEstates/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}"),Authorize]
-        public async Task<IActionResult> PutRealEstate(RealEstate realEstate)
+        public async Task<IActionResult> PutRealEstate(int id, RealEstate realEstate)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null)
-            {
-                return Unauthorized();
-            }
-            int id = int.Parse(userId);
             if (id != realEstate.Id)
             {
                 return BadRequest();
@@ -202,7 +196,7 @@ namespace RealEstateBackEnd.Controllers
             _context.RealEstate.Add(realEstate);
             await _context.SaveChangesAsync();
 
-            return Ok(new { message = "Create realestate successfully" });
+            return CreatedAtAction("GetRealEstate", new { id = realEstate.Id }, realEstate);
         }
 
         // DELETE: api/RealEstates/5

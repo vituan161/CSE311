@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const profileSlice = createSlice({
     name: "profile",
     initialState: {
-        FisrtName: "",
+        FirstName: "",
         LastName: "",
         Address: "",
         DoB: "",
@@ -11,16 +11,20 @@ export const profileSlice = createSlice({
         Rating: 0,
         IdentiticationNumber: "",
         Description: "",
+        ImageURL: "",
     },
     reducers:{
         setFirstName: (state, action) => {
-            state.FisrtName = action.payload;
+            state.FirstName = action.payload;
         },
         setLastName: (state, action) => {
             state.LastName = action.payload;
         },
         setAddress: (state, action) => {
             state.Address = action.payload;
+        },
+        setImageURL: (state, action) => {
+            state.ImageURL = action.payload;
         },
         setDoB: (state, action) => {
             state.DoB = action.payload;
@@ -37,8 +41,21 @@ export const profileSlice = createSlice({
         setDescription: (state, action) => {
             state.Description = action.payload;
         },
+        resetProfile: (state) => {
+            return {
+                FirstName: "",
+                LastName: "",
+                Address: "",
+                DoB: "",
+                Phone: "",
+                Rating: 0,
+                IdentificationNumber: "",
+                Description: "",
+                ImageURL: [],
+            };
+        },
     },
 });
 
-export const { setFirstName, setLastName, setAddress, setDoB, setPhone, setRating, setIdentiticationNumber, setDescription } = profileSlice.actions;
+export const { resetProfile, setFirstName, setLastName, setAddress,setImageURL, setDoB, setPhone, setRating, setIdentiticationNumber, setDescription } = profileSlice.actions;
 export default profileSlice.reducer;
