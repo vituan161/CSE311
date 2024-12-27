@@ -1,5 +1,44 @@
+@import "../../color.scss";
 .company-single {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  overflow: hidden;
+  height: 100%;
+  .left {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: scroll;
+    .wrapper {
+      padding: 20px;
+      .imgSlider {
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+
+  .right {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: $light-sky-blue;
+
+    .description {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+      font-size: 16px;
+      color: #444;
+      p {
+        line-height: 1.5;
+      }
+    }
+  }
 }

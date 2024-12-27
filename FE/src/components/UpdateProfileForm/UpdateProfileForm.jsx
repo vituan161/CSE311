@@ -31,7 +31,7 @@ function UpdateProfileForm({ className, onClose }) {
       PhoneNumber: phoneNumber,
       Description: bio,
     };
-    await handlePutProfile(token.value,dispatch,data);
+    await handlePutProfile(token.value, dispatch, data);
     handleCancel();
     window.alert("Update successfully");
   };
@@ -114,7 +114,7 @@ function UpdateProfileForm({ className, onClose }) {
                 </div>
                 <div className="form-row">
                   <div className="form-group">
-                    <label htmlFor="Dob">Date of Birth</label>
+                    <label htmlFor="Dob">Date of Birth (yyyy-mm-dd)</label>
                     <input
                       type="text"
                       id="Dob"

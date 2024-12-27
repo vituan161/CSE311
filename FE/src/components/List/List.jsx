@@ -4,12 +4,19 @@ import { listData } from "../../lib/dummydata";
 import { useState, useEffect } from "react";
 import Card from "../Card/Card";
 import axios from "axios";
+import { useSelector } from "react-redux";
 function List({ data }) {
   const [listData, setListData] = useState([]);
+  const token = useSelector((state) => state.token);
   const getCompany = async () => {
     try {
       const response = await axios.get(
-        "https://localhost:7215/api/RealEstates/"
+        "https://localhost:7215/api/RealEstates/MyRealEstate/",
+        {
+          headers: {
+            Authorization: `Bearer ${token.value}`,
+          },
+        }
       );
       //console.log(response.data);
       setListData(response.data);
