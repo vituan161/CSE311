@@ -4,10 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAt, faLock } from "@fortawesome/free-solid-svg-icons";
 import login from "../../lib/api";
+import { handleGetProfile, handleToken } from "../../lib/utilities";
 import { use } from "react";
+import { useSelector, useDispatch } from "react-redux";
 function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
   const mail = "thuan@gmail.com";
   const pass = "Thuan123@";
   let navigateTo = useNavigate();
@@ -18,6 +21,8 @@ function LoginForm() {
       const response = await login(email, password);
       if (response) {
         window.alert("Login successfully");
+        await handleToken(response.accessToken, dispatch);
+        await handleGetProfile(response.accessToken,dispatch);
         navigateTo("/");
       }
     } catch (error) {

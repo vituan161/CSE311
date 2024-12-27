@@ -22,6 +22,6 @@ namespace RealEstateBackEnd.Models
         public string Description { get; set; } = string.Empty;
         [ForeignKey(nameof(AppUser))]
         public int AppUserId { get; set; }
-        public AppUser AppUser { get; set; } = null!;
+        public AppUser? AppUser { get; set; } = null!;
     }
 }

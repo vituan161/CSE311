@@ -10,8 +10,9 @@ import SignUp from "./pages/signup/signup";
 import ProfilePage from "./pages/profile/profilePage";
 import NewsPage from "./pages/newsPage/newsPage";
 import Company from "./pages/company/Company";
+import SingleCompany from "./pages/singleCompany/singleCompany";
+import List from "./components/List/List";
 import PrivateRoute from "./components/PrivateRoute";
-
 function App() {
   const router = createBrowserRouter([
     {
@@ -65,6 +66,10 @@ function App() {
         {
           path: "/company",
           element: <Company />,
+        },
+        {
+          path: "/company/:id",
+          element: <SingleCompany />,
         },
       ],
     },

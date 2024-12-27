@@ -71,7 +71,7 @@ namespace RealEstateBackEnd.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(new { message = "Company updated successfully" });
         }
 
         // POST: api/Companies
@@ -86,7 +86,7 @@ namespace RealEstateBackEnd.Controllers
         }
 
         // DELETE: api/Companies/5
-        [HttpDelete("{id}"), Authorize]
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
             var company = await _context.Company.FindAsync(id);
@@ -98,7 +98,7 @@ namespace RealEstateBackEnd.Controllers
             _context.Company.Remove(company);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(new { message = "Company deleted successfully" });
         }
 
         private bool CompanyExists(int id)

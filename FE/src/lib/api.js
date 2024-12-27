@@ -15,9 +15,9 @@ const login = async (email, password) => {
     });
 
     if (response.status === 200) {
-      console.log("Token:", response.data.accessToken);
       localStorage.setItem("jwt", response.data.accessToken);
       localStorage.setItem("user", true);
+      getProfile(response.data.accessToken);
       return response.data;
     }
   } catch (error) {
@@ -26,4 +26,38 @@ const login = async (email, password) => {
     throw error;
   }
 };
+
+const getProfile = async (token) => {
+  try {
+    const response = await apiClient.get("/Profiles/GetMyProfile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return response.data;
+  } catch (error) {
+    console.error("Get profile failed:", error);
+    console.log("Error:", error.response);
+    throw error;
+  }
+};
+
+const putProfile = async (token, profile) => {
+  try {
+    const response = await apiClient.put("/Profiles", profile, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  }
+  catch (error) {
+    console.error("Post profile failed:", error);
+    console.log("Error:", error.response);
+    window.alert("Update profile failed");
+    throw error;
+  }
+};
+
+export { login, getProfile,putProfile };
 export default login;

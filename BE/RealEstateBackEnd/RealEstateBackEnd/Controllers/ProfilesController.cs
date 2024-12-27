@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -43,17 +44,46 @@ namespace RealEstateBackEnd.Controllers
             return profile;
         }
 
+        [HttpGet("GetMyProfile"),Authorize]
+        public async Task<ActionResult<Profile>> GetMyProfile()
+        {
+            var usesId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (usesId == null)
+            {
+                return Unauthorized();
+            }
+            int id = int.Parse(usesId);
+            var profile = await _context.Profile.Include(p => p.AppUser).ThenInclude(u => u.Follow).FirstOrDefaultAsync(p => p.AppUserId == id);
+            if(profile == null)
+            {
+                return NotFound();
+            }
+            return profile;
+        }
+
+
         // PUT: api/Profiles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}"), Authorize]
-        public async Task<IActionResult> PutProfile(int id, Profile profile)
+        [HttpPut, Authorize]
+        public async Task<IActionResult> PutProfile(Profile Updatedprofile)
         {
-            if (id != profile.Id)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
             {
-                return BadRequest();
+                return Unauthorized();
             }
-
-            _context.Entry(profile).State = EntityState.Modified;
+            int id = int.Parse(userId);
+            // Retrieve the existing profile using AsNoTracking
+            Profile currentProfile = await _context.Profile.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+            if(currentProfile == null)
+            {
+                return NotFound();
+            }
+            // Ensure the updated profile has the correct ID and AppUserId
+            Updatedprofile.Id = id;
+            Updatedprofile.AppUserId = currentProfile.AppUserId;
+            // Attach the updated profile to the context and set its state to Modified
+            _context.Entry(Updatedprofile).State = EntityState.Modified;
 
             try
             {
@@ -71,7 +101,7 @@ namespace RealEstateBackEnd.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(new { message = "Profile updated successfully" });
         }
 
         // POST: api/Profiles

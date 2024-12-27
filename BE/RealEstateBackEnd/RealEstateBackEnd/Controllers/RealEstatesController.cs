@@ -34,7 +34,7 @@ namespace RealEstateBackEnd.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<RealEstate>> GetRealEstate(int id)
         {
-            var realEstate = await _context.RealEstate.FindAsync(id);
+            var realEstate = await _context.RealEstate.Include(r => r.Prices).FirstOrDefaultAsync(r => r.Id == id);
 
             if (realEstate == null)
             {
@@ -95,6 +95,25 @@ namespace RealEstateBackEnd.Controllers
             var result = await query.ToListAsync();
 
             return Ok(result);
+        }
+
+        [HttpGet("MyRealEstate"), Authorize]
+        public async Task<ActionResult<IEnumerable<RealEstate>>> GetMyRealEstate()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            int id = int.Parse(userId);
+            var realEstates = await _context.RealEstate.Include(r => r.Prices).Where(r => r.Seller.UserId == id).ToListAsync();
+
+            if (realEstates == null)
+            {
+                return NotFound();
+            }
+
+            return realEstates;
         }
 
         // PUT: api/RealEstates/5

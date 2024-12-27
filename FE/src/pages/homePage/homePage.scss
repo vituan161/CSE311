@@ -3,7 +3,8 @@
 .homePage {
   display: flex;
   background: $primary-color;
-
+  overflow: hidden;
+  height: 100%;
   .textContainer {
     flex: 3;
     .wrapper {
