@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RealEstateBackEnd.Data;
 
@@ -11,9 +12,11 @@ using RealEstateBackEnd.Data;
 namespace RealEstateBackEnd.Migrations
 {
     [DbContext(typeof(RealEstateBackEndContext))]
-    partial class RealEstateBackEndContextModelSnapshot : ModelSnapshot
+    [Migration("20241226063612_AddChoices")]
+    partial class AddChoices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

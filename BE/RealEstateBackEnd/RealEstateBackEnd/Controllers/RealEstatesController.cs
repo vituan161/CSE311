@@ -43,29 +43,46 @@ namespace RealEstateBackEnd.Controllers
 
             return realEstate;
         }
+        // GET: api/Filter
         [HttpGet("Filter")]
         public async Task<ActionResult<IEnumerable<RealEstate>>> FilterRealEstates(
            [FromQuery] RealEstateType? type,
+           [FromQuery] Choice? choice,
            [FromQuery] string? province,
+           [FromQuery] string? city,
            [FromQuery] string? address,
            [FromQuery] decimal? minPrice,
            [FromQuery] decimal? maxPrice)
         {
             var query = _context.RealEstate.Include(r => r.Prices).AsQueryable();
 
+            if (choice.HasValue)
+            {
+                query = query.Where(r => r.choices == choice.Value);
+            }
+
             if (type.HasValue)
             {
                 query = query.Where(r => r.Type == type.Value);
             }
 
+
             if (!string.IsNullOrEmpty(province))
             {
-                query = query.Where(r => r.Address.Contains(province, StringComparison.OrdinalIgnoreCase));
+                var provinceLower = province.ToLower();
+                query = query.Where(r => r.Address.ToLower().Contains(provinceLower));
+            }
+
+            if (!string.IsNullOrEmpty(city))
+            {
+                var cityLower = city.ToLower();
+                query = query.Where(r => r.Address.ToLower().Contains(cityLower));
             }
 
             if (!string.IsNullOrEmpty(address))
             {
-                query = query.Where(r => r.Address.Contains(address, StringComparison.OrdinalIgnoreCase));
+                var addressLower = address.ToLower();
+                query = query.Where(r => r.Address.ToLower().Contains(addressLower));
             }
 
             if (minPrice.HasValue || maxPrice.HasValue)
@@ -127,6 +144,8 @@ namespace RealEstateBackEnd.Controllers
             currentRealEstate.Type = realEstate.Type;
             currentRealEstate.DateExprired = realEstate.DateExprired;
             currentRealEstate.Status = realEstate.Status;
+            currentRealEstate.choices = realEstate.choices;
+            currentRealEstate.Location=realEstate.Location;
 
             //check if the prices are provided in the request
             if (realEstate.Prices != null && realEstate.Prices.Count > 0)

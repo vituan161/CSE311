@@ -8,6 +8,21 @@
     font-weight: 300;
     font-size: 24px;
   }
+  .top-item{
+    display: flex;
+    select,input{
+      height: 50px;
+      
+      border: 1px solid #888;
+    }
+    select{
+      border-right: 0;
+    }
+    input{
+      padding-left: 20px;
+      border-left:0 ;
+    }
+  }
   .item {
     display: flex;
     flex-direction: column;
