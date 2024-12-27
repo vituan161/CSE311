@@ -11,7 +11,7 @@ export const profileSlice = createSlice({
         Rating: 0,
         IdentiticationNumber: "",
         Description: "",
-        ImageURL: "",
+        ImageURL: [""],
     },
     reducers:{
         setFirstName: (state, action) => {

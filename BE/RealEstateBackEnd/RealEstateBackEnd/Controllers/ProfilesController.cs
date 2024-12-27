@@ -73,13 +73,16 @@ namespace RealEstateBackEnd.Controllers
                 return Unauthorized();
             }
             int id = int.Parse(userId);
+            // Retrieve the existing profile using AsNoTracking
             Profile currentProfile = await _context.Profile.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
             if(currentProfile == null)
             {
                 return NotFound();
             }
+            // Ensure the updated profile has the correct ID and AppUserId
             Updatedprofile.Id = id;
             Updatedprofile.AppUserId = currentProfile.AppUserId;
+            // Attach the updated profile to the context and set its state to Modified
             _context.Entry(Updatedprofile).State = EntityState.Modified;
 
             try
