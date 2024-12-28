@@ -1,6 +1,5 @@
 import React from "react";
 import "./List.scss";
-import { listData } from "../../lib/dummydata";
 import { useState, useEffect } from "react";
 import Card from "../Card/Card";
 import axios from "axios";

@@ -9,14 +9,30 @@ const UploadImage = ({ onUpload }) => {
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
-    setImages(files);
+    const allowedExtensions = ["jpg", "jpeg", "png"];
+    const validFiles = [];
+    const invalidFiles = [];
 
-    const urls = files.map((file) => URL.createObjectURL(file));
+    files.forEach((file) => {
+      const extension = file.name.split('.').pop();
+      if (allowedExtensions.includes(extension)) {
+        validFiles.push(file);
+      } else {
+        invalidFiles.push(file);
+      }
+    });
+
+    if (invalidFiles.length > 0) {
+      window.alert(`The following files have invalid extensions: ${invalidFiles.map(file => file.name).join(', ')}`);
+    }
+
+    setImages(validFiles);
+    const urls = validFiles.map((file) => URL.createObjectURL(file));
     setPreviewUrls(urls);
 
     // Call onUpload immediately after files are selected
     if (onUpload) {
-      onUpload(files);
+      onUpload(validFiles);
     }
   };
 

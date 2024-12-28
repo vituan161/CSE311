@@ -167,7 +167,7 @@ namespace RealEstateBackEnd.Migrations
 
                     b.HasIndex("FollowerId");
 
-                    b.ToTable("ProfileFollower");
+                    b.ToTable("ProfileFollower", (string)null);
                 });
 
             modelBuilder.Entity("ProfileFollowing", b =>
@@ -182,7 +182,7 @@ namespace RealEstateBackEnd.Migrations
 
                     b.HasIndex("FollowingId");
 
-                    b.ToTable("ProfileFollowing");
+                    b.ToTable("ProfileFollowing", (string)null);
                 });
 
             modelBuilder.Entity("RealEstateBackEnd.Models.AppUser", b =>
@@ -307,7 +307,7 @@ namespace RealEstateBackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Company");
+                    b.ToTable("Company", (string)null);
                 });
 
             modelBuilder.Entity("RealEstateBackEnd.Models.Follow", b =>
@@ -326,7 +326,7 @@ namespace RealEstateBackEnd.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Follow");
+                    b.ToTable("Follow", (string)null);
                 });
 
             modelBuilder.Entity("RealEstateBackEnd.Models.News", b =>
@@ -363,7 +363,7 @@ namespace RealEstateBackEnd.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("News");
+                    b.ToTable("News", (string)null);
                 });
 
             modelBuilder.Entity("RealEstateBackEnd.Models.Plan", b =>
@@ -426,7 +426,7 @@ namespace RealEstateBackEnd.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Plan");
+                    b.ToTable("Plan", (string)null);
                 });
 
             modelBuilder.Entity("RealEstateBackEnd.Models.Price", b =>
@@ -450,7 +450,7 @@ namespace RealEstateBackEnd.Migrations
 
                     b.HasIndex("RealEstateId");
 
-                    b.ToTable("Price");
+                    b.ToTable("Price", (string)null);
                 });
 
             modelBuilder.Entity("RealEstateBackEnd.Models.Profile", b =>
@@ -502,7 +502,7 @@ namespace RealEstateBackEnd.Migrations
                     b.HasIndex("AppUserId")
                         .IsUnique();
 
-                    b.ToTable("Profile");
+                    b.ToTable("Profile", (string)null);
                 });
 
             modelBuilder.Entity("RealEstateBackEnd.Models.RealEstate", b =>
@@ -577,7 +577,7 @@ namespace RealEstateBackEnd.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("RealEstate");
+                    b.ToTable("RealEstate", (string)null);
                 });
 
             modelBuilder.Entity("RealEstateBackEnd.Models.Seller", b =>
@@ -600,7 +600,7 @@ namespace RealEstateBackEnd.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Seller");
+                    b.ToTable("Seller", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

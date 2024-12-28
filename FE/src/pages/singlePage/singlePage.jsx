@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./singlePage.scss";
 import Slider from "../../components/Slider/Slider";
 import Map from "../../components/Map/Map";
-import { singlePostDataList, userData } from "../../lib/dummydata";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 

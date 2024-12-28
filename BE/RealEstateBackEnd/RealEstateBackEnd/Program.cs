@@ -8,6 +8,8 @@ using Swashbuckle.AspNetCore.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.FileProviders;
+using RealEstateBackEnd.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<RealEstateBackEndContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("RealEstateBackEndContext") ?? throw new InvalidOperationException("Connection string 'RealEstateBackEndContext' not found.")));
@@ -19,6 +21,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 });
+
+builder.Services.AddScoped<FileServices>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -90,7 +94,12 @@ app.UseCors(RealEstateOrigin);
 app.MapIdentityApi<AppUser>();
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Uploads")),
+    RequestPath = "/Resources"
+});
 app.UseAuthentication();
 
 app.UseAuthorization();

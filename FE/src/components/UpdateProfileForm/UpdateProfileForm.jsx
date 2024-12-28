@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./UpdateProfileForm.scss";
 import { handlePutProfile } from "../../lib/utilities";
+import UploadImage from "../UploadImage/UploadImage";
 function UpdateProfileForm({ className, onClose }) {
   const token = useSelector((state) => state.token);
   const [activeSection, setActiveSection] = useState("account");
@@ -10,6 +11,7 @@ function UpdateProfileForm({ className, onClose }) {
   const [firstName, setFirstName] = useState(profile.FirstName);
   const [lastName, setLastName] = useState(profile.LastName);
   const [ImageURL, setImageURL] = useState(profile.ImageURL[0]);
+  const [Images, setImages] = useState([]);
   const [DoB, setDoB] = useState(profile.DoB);
   const [IdentificationNumber, setIdentificationNumber] = useState(
     profile.IdentiticationNumber
@@ -30,11 +32,15 @@ function UpdateProfileForm({ className, onClose }) {
       Address: address,
       PhoneNumber: phoneNumber,
       Description: bio,
+      Images: Images,
     };
     await handlePutProfile(token.value, dispatch, data);
     handleCancel();
-    window.alert("Update successfully");
   };
+
+  const handleUpload = (files) => {
+    setImages(files);
+  }
 
   const resetlocalValue = () => {
     setFirstName(profile.FirstName);
@@ -59,7 +65,7 @@ function UpdateProfileForm({ className, onClose }) {
         {/* sidebar content here */}
         <div className="sidebar">
           <div className="info">
-            <img src={profile.ImageURL[0]} alt="" />
+            <img src={`https://localhost:7215/Resources/`+profile.ImageURL[0]} alt="" />
             <h3>{profile.LastName + " " + profile.FirstName}</h3>
           </div>
 
@@ -159,19 +165,20 @@ function UpdateProfileForm({ className, onClose }) {
                         flexDirection: "collumn",
                       }}
                     >
-                      <img
+                      {/* <img
                         src={ImageURL}
                         alt=""
                         style={{ width: "70px", height: "70px" }}
-                      />
-                      <input
+                      /> */}
+                      {/* <input
                         type="text"
                         id="ImageURL"
                         placeholder="Enter your image link"
                         defaultValue={ImageURL}
                         onInput={(e) => setImageURL(e.target.value)}
                         style={{ width: "100%" }}
-                      />
+                      /> */}
+                      <UploadImage onUpload={handleUpload}/>
                     </div>
                   </div>
                 </div>

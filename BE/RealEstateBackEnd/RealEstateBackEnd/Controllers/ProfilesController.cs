@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstateBackEnd.Data;
 using RealEstateBackEnd.Models;
+using RealEstateBackEnd.Services;
 
 namespace RealEstateBackEnd.Controllers
 {
@@ -17,10 +19,12 @@ namespace RealEstateBackEnd.Controllers
     public class ProfilesController : ControllerBase
     {
         private readonly RealEstateBackEndContext _context;
+        private readonly FileServices _fileServices;
 
-        public ProfilesController(RealEstateBackEndContext context)
+        public ProfilesController(RealEstateBackEndContext context,FileServices fileServices)
         {
             _context = context;
+            _fileServices = fileServices;
         }
 
         // GET: api/Profiles
@@ -65,8 +69,12 @@ namespace RealEstateBackEnd.Controllers
         // PUT: api/Profiles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut, Authorize]
-        public async Task<IActionResult> PutProfile(Profile Updatedprofile)
+        public async Task<IActionResult> PutProfile([FromForm] Profile Updatedprofile)
         {
+            if(Updatedprofile == null)
+            {
+                return BadRequest();
+            }
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
@@ -82,6 +90,30 @@ namespace RealEstateBackEnd.Controllers
             // Ensure the updated profile has the correct ID and AppUserId
             Updatedprofile.Id = id;
             Updatedprofile.AppUserId = currentProfile.AppUserId;
+
+            //update the images
+            var currentImages = currentProfile.ImageURL;
+            var newImages = Updatedprofile.Images;
+            if (newImages != null && newImages.Count > 0)
+            {
+                foreach (var currentimage in currentImages)
+                {
+                    _fileServices.DeleteFile(currentimage);
+                }
+            }
+            IList<string> imageUrls = new List<string>();
+            string[] allowedFileExtension = { ".jpg", ".jpeg", ".png" };
+            if (newImages != null && newImages.Count > 0)
+            {
+                foreach (var newImage in newImages)
+                {
+                    var imageUrl = await _fileServices.SaveFile(newImage, allowedFileExtension);
+                    imageUrls.Add(imageUrl.ToString());
+                }
+            }
+
+            Updatedprofile.ImageURL = imageUrls;
+
             // Attach the updated profile to the context and set its state to Modified
             _context.Entry(Updatedprofile).State = EntityState.Modified;
 

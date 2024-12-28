@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./profilePage.scss";
 import List from "../../components/List/List";
-import { listData } from "../../lib/dummydata";
 import UpdateProfileForm from "../../components/UpdateProfileForm/UpdateProfileForm";
 import NewPostForm from "../../components/NewPostForm/NewPostForm";
 import { useSelector } from "react-redux";
@@ -48,7 +47,7 @@ function ProfilePage() {
             <div className="infowrap">
               <span>
                 Avatar:
-                <img src={profile.ImageURL[0]} alt="" />
+                <img src={`https://localhost:7215/Resources/`+profile.ImageURL[0]} alt="" />
               </span>
               <span>
                 User Name: <b>{account.userName}</b>
@@ -68,11 +67,11 @@ function ProfilePage() {
             <h1>My List</h1>
             <button onClick={activeNewPost}>Create New Post</button>
           </div>
-          <List data={listData} />
+          {/* <List data={listData} /> */}
           <div className="title">
             <h1>Saved List</h1>
           </div>
-          <List data={listData} />
+          {/* <List data={listData} /> */}
         </div>
       </div>
       <div className="chat">
