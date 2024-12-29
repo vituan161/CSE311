@@ -212,7 +212,7 @@ function UpdateProfileForm({ className, onClose }) {
                       name="bio"
                       id="bio"
                       cols={50}
-                      rows={6}
+                      rows={5}
                       onInput={(e) => setBio(e.target.value)}
                     >
                       {bio}

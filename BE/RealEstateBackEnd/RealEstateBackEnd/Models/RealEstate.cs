@@ -13,6 +13,8 @@ namespace RealEstateBackEnd.Models
         public string Address { get; set; } = String.Empty;
         public string Link { get; set; } = String.Empty;
         public IList<string> Imageurl { get; set; } = new List<string>();
+        [NotMapped]
+        public IList<IFormFile>? Images { get; set; } = new List<IFormFile>();
         public IList<string> Description { get; set; } = new List<string>();
         public IList<string> Design { get; set; } = new List<string>();
         public string Legality { get; set; } = String.Empty;

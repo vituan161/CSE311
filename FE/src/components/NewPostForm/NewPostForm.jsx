@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./NewPostForm.scss";
 import UploadImage from "../UploadImage/UploadImage";
 import SelectLocation from "../Map/SelectLocation";
-import MultiSelectDropdown from "../SelectDropdown/SelectDropdown";
 import axios from "axios";
 import { useSelector } from "react-redux";
 function NewPostForm({ className, onClose }) {
@@ -20,6 +19,8 @@ function NewPostForm({ className, onClose }) {
   const [bathroom, setBathroom] = useState("");
   const [bedroom, setBedroom] = useState("");
   const [detail, setDetail] = useState("");
+  const [images, setImages] = useState([]);
+  const [uploadComponents, setUploadComponents] = useState([]);
 
   const date = new Date();
   const current = date.toISOString().split("T")[0];
@@ -41,8 +42,8 @@ function NewPostForm({ className, onClose }) {
       name: name,
       area: area,
       address: address,
-      link: "",
-      imageurl: getAllImgURL(),
+      Link: "",
+      imageurl: [""],
       description: [description],
       design: designArray,
       legality: legality,
@@ -59,23 +60,44 @@ function NewPostForm({ className, onClose }) {
       choice: choice,
       location: [location.lat, location.lng],
     };
-    console.log(JSON.stringify(realEstate));
+    const formdata = new FormData();
+    formdata.append("name", name);
+    formdata.append("area", area);
+    formdata.append("address", address);
+    formdata.append("Link", "none");
+    formdata.append("description", JSON.stringify([description]));
+    formdata.append("design", designArray);
+    formdata.append("legality", legality);
+    formdata.append("type", type);
+    formdata.append("dateCreated", current);
+    formdata.append("dateExprired", formattedExpiryDate);
+    formdata.append("status", status);
+
+    formdata.append("Prices[0][priceValue]", price);
+    formdata.append("Prices[0][dateCreated]", current);
+    formdata.append("choice", choice);
+    formdata.append("location[]", location.lat);
+    formdata.append("location[]", location.lng);
+
+    images.forEach((image, index) => {
+      formdata.append(`Images`, image);
+    });
+    console.log(formdata);
     try {
       const response = await axios.post(
         "https://localhost:7215/api/RealEstates",
-        realEstate,
+        formdata,
         {
           headers: {
             Authorization: `Bearer ${token.value}`,
-            Accept: "*/*",
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-      console.log(response.status);
       if (response.status === 201) {
         console.log(response.status);
         window.alert("Post Successful!");
+        onClose();
       }
     } catch (error) {
       window.alert("Post failed!", error);
@@ -99,33 +121,62 @@ function NewPostForm({ className, onClose }) {
   };
 
   const addInput = () => {
-    const inputField = document.querySelector(".inputField");
-    const group = document.createElement("div");
-    group.classList.add("input-group");
-    inputField.appendChild(group);
-    const input = document.createElement("input");
-    const imgShow = document.createElement("img");
+    setUploadComponents([
+      ...uploadComponents,
+      {
+        id: uploadComponents.length,
+        component: (
+          <UploadImage
+            key={uploadComponents.length}
+            onUpload={(files) => handleUpload(files, uploadComponents.length)}
+          />
+        ),
+      },
+    ]);
+  };
 
-    input.setAttribute("type", "text");
-    input.setAttribute("name", " ");
-    input.setAttribute("placeholder", "Enter Image URL");
-    input.addEventListener("input", () => {
-      imgShow.src = input.value;
-    });
-    group.appendChild(imgShow);
-    group.appendChild(input);
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.classList.add("delete");
-    deleteButton.addEventListener("click", () => {
-      group.remove();
-    });
-    group.appendChild(deleteButton);
+  const handleUpload = (files,id) => {
+    setImages((prevImages) => {
+      const newImages = [...prevImages];
+      newImages[id] = files;
+      return newImages.flat();
+    })
   };
-  const getAllImgURL = () => {
-    const inputs = document.querySelectorAll(".inputField input");
-    return Array.from(inputs).map((input) => input.value);
+
+  const removeInput = (id) => {
+    setUploadComponents(uploadComponents.filter((item) => item.id !== id));
+    setImages((prevImages) => prevImages.filter((_, index) => index !== id));
   };
+
+  // const addInput = () => {
+  //   const inputField = document.querySelector(".inputField");
+  //   const group = document.createElement("div");
+  //   group.classList.add("input-group");
+  //   inputField.appendChild(group);
+  //   const input = document.createElement("input");
+  //   const imgShow = document.createElement("img");
+
+  //   input.setAttribute("type", "text");
+  //   input.setAttribute("name", " ");
+  //   input.setAttribute("placeholder", "Enter Image URL");
+  //   input.addEventListener("input", () => {
+  //     imgShow.src = input.value;
+  //   });
+  //   group.appendChild(imgShow);
+  //   group.appendChild(input);
+  //   const deleteButton = document.createElement("button");
+  //   deleteButton.textContent = "Delete";
+  //   deleteButton.classList.add("delete");
+  //   deleteButton.addEventListener("click", () => {
+  //     group.remove();
+  //   });
+  //   group.appendChild(deleteButton);
+  // };
+
+  // const getAllImgURL = () => {
+  //   const inputs = document.querySelectorAll(".inputField input");
+  //   return Array.from(inputs).map((input) => input.value);
+  // };
 
   return (
     <div className={`new-post-form ${className}`}>
@@ -220,8 +271,23 @@ function NewPostForm({ className, onClose }) {
                   >
                     Add new Image URL
                   </button>
-                  <div className="inputField"></div>
-                  {/* <button onClick={getAllImgURL}>OK</button> */}
+                  <div className="inputField">
+                    {uploadComponents.map((item) => (
+                      <div className="input-group" key={item.id}>
+                        <div className="upload-component">
+                          {item.component}
+                          <button
+                            className="delete"
+                            type="button"
+                            onClick={() => removeInput(item.id)}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    {/* <button onClick={getAllImgURL}>OK</button> */}
+                  </div>
                 </div>
               </div>
               <div className="room-size">
