@@ -11,12 +11,17 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
   iconUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-const SelectLocation = ({ onLocationSelect }) => {
-  const [position, setPosition] = useState(null);
+const SelectLocation = ({
+  onLocationSelect,
+  defaultLat = 0,
+  defaultLng = 0,
+}) => {
+  const [position, setPosition] = useState({
+    lat: defaultLat,
+    lng: defaultLng,
+  });
 
   const LocationMarker = () => {
     useMapEvents({
@@ -31,13 +36,17 @@ const SelectLocation = ({ onLocationSelect }) => {
 
   return (
     <MapContainer
-      center={[51.505, -0.09]}
-      zoom={13}
-      style={{ height: "400px", width: "100%" }}
+      center={[15.87, 108.22]}
+      zoom={5}
+      zoomAnimation={false}
+      zoomControl={false}
+      scrollWheelZoom={true}
+      style={{ height: "600px" }}
     >
       <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        maxZoom={18}
       />
       <LocationMarker />
     </MapContainer>

@@ -38,16 +38,15 @@ const SingleCompany = () => {
             <p>{company.location}</p>
             <p>{company.email}</p>
             <p>{company.phone}</p>
+            <div className="description">
+              <h3>Description</h3>
+              <p>{company.description}</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="right">
-        <div className="description">
-          <h3>Description</h3>
-          <p>{company.description}</p>
-        </div>
-      </div>
+      <div className="right">News</div>
     </div>
   );
 };

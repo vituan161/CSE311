@@ -8,11 +8,11 @@ import axios from "axios";
 
 function SinglePage() {
   const { id } = useParams();
-
   const [post, setPost] = useState([]);
   const [images, setImages] = useState([]);
   const [design, setDesign] = useState([]);
   const [price, setPrice] = useState();
+  const [postForMap, setPostForMap] = useState([]);
   // useEffect(() => {
   //   const foundPost = singlePostDataList.find(
   //     (item) => item.id.toString() === id
@@ -26,11 +26,12 @@ function SinglePage() {
       const response = await axios.get(
         "https://localhost:7215/api/RealEstates/" + id
       );
-      console.log(response.data);
+      // console.log(response.data);
       setPost(response.data);
       setImages(response.data.imageurl);
       setDesign(response.data.design);
       setPrice(response.data.prices[0].priceValue);
+      setPostForMap([response.data]);
     } catch (error) {
       console.error("Get post failed:", error);
     }
@@ -98,8 +99,8 @@ function SinglePage() {
               <img src="/size.png" alt="" />
               <span>{post.area}</span>
             </div>
-            {design.map((design) => (
-              <div className="size">
+            {design.map((design, index) => (
+              <div className="size" key={index}>
                 <span>{design}</span>
               </div>
             ))}
@@ -131,7 +132,7 @@ function SinglePage() {
           </div> */}
           <p className="title">Location</p>
           <div className="mapContainer">
-            <iframe src={post.link} frameborder="0"></iframe>
+            <Map items={postForMap} />
           </div>
           <div className="buttons">
             <button>

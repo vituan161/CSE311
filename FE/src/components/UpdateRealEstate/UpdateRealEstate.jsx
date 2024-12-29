@@ -1,25 +1,29 @@
-import React, { useState } from "react";
-import "./NewPostForm.scss";
+import React, { useState, useEffect } from "react";
+import "./UpdateRealEstate.scss";
 import UploadImage from "../UploadImage/UploadImage";
 import SelectLocation from "../Map/SelectLocation";
 import MultiSelectDropdown from "../SelectDropdown/SelectDropdown";
 import axios from "axios";
 import { useSelector } from "react-redux";
-function NewPostForm({ className, onClose }) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState();
-  const [address, setAddress] = useState("");
-  const [type, setType] = useState(1);
-  const [choice, setChoice] = useState(1);
+function UpdateRealEstate({ className, onClose, item }) {
+  const designArray = item.design;
+  const [name, setName] = useState(item.name);
+  const [description, setDescription] = useState(item.description);
+  const [price, setPrice] = useState(item.prices[0].priceValue);
+  const [address, setAddress] = useState(item.address);
+  const [type, setType] = useState(item.type);
+  const [choice, setChoice] = useState(item.choice);
   const [design, setDesign] = useState([]);
-  const [area, setArea] = useState("");
-  const [legality, setLegality] = useState("");
-  const [status, setStatus] = useState("");
-  const [location, setLocation] = useState(null);
-  const [bathroom, setBathroom] = useState("");
-  const [bedroom, setBedroom] = useState("");
-  const [detail, setDetail] = useState("");
+  const [area, setArea] = useState(parseInt(item.area, 10));
+  const [legality, setLegality] = useState(item.legality);
+  const [status, setStatus] = useState(item.status);
+  const [location, setLocation] = useState(
+    item.location ? { lat: item.location[0], lng: item.location[1] } : null
+  );
+  const [bathroom, setBathroom] = useState(parseInt(item.design[0], 10));
+  const [bedroom, setBedroom] = useState(parseInt(item.design[1], 10));
+  const [detail, setDetail] = useState(designArray.slice(2));
+  const [imgList, setImgList] = useState(item.imageurl);
 
   const date = new Date();
   const current = date.toISOString().split("T")[0];
@@ -34,17 +38,20 @@ function NewPostForm({ className, onClose }) {
   const handleLocationSelect = (latlng) => {
     setLocation(latlng);
   };
-  const designArray = detail.split(",").map((item) => item.trim());
-  designArray.unshift(bedroom.toString(), bathroom.toString());
-  const submit = async () => {
+
+  const update = async () => {
     const realEstate = {
       name: name,
-      area: area,
+      area: area + "mét vuông",
       address: address,
       link: "",
       imageurl: getAllImgURL(),
-      description: [description],
-      design: designArray,
+      description: description,
+      design: [
+        bedroom + " phòng ngủ",
+        bathroom + " phòng tắm",
+        ...detail.split(",").map((item) => item.trim()),
+      ],
       legality: legality,
       type: type,
       dateCreated: current,
@@ -59,34 +66,39 @@ function NewPostForm({ className, onClose }) {
       choice: choice,
       location: [location.lat, location.lng],
     };
+    console.log(description);
+    console.log(realEstate);
     console.log(JSON.stringify(realEstate));
+
     try {
-      const response = await axios.post(
-        "https://localhost:7215/api/RealEstates",
+      const response = await axios.put(
+        ` https://localhost:7215/api/RealEstates/${item.id}`,
+        item.id,
+
         realEstate,
         {
           headers: {
-            Authorization: `Bearer ${token.value}`,
             Accept: "*/*",
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token.value}`,
           },
         }
       );
       console.log(response.status);
       if (response.status === 201) {
-        console.log(response.status);
-        window.alert("Post Successful!");
+        console.log(response);
+        window.alert("Update Successful!");
       }
     } catch (error) {
-      window.alert("Post failed!", error);
-      console.error("Post failed:", error);
+      window.alert("Update failed!", error);
+      console.error("Update failed:", error);
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await submit();
+      const response = await update();
     } catch (error) {
       console.error(error);
     }
@@ -99,21 +111,24 @@ function NewPostForm({ className, onClose }) {
   };
 
   const addInput = () => {
-    const inputField = document.querySelector(".inputField");
-    const group = document.createElement("div");
-    group.classList.add("input-group");
-    inputField.appendChild(group);
-    const input = document.createElement("input");
-    const imgShow = document.createElement("img");
+    const inputField = document.querySelector(".inputUpdateField");
 
+    const group = document.createElement("div");
+    group.classList.add("group");
+    inputField.appendChild(group);
+    const imgShow = document.createElement("img");
+    imgShow.classList.add("imgShow");
+    group.appendChild(imgShow);
+
+    const input = document.createElement("input");
     input.setAttribute("type", "text");
     input.setAttribute("name", " ");
     input.setAttribute("placeholder", "Enter Image URL");
     input.addEventListener("input", () => {
       imgShow.src = input.value;
     });
-    group.appendChild(imgShow);
     group.appendChild(input);
+
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.classList.add("delete");
@@ -122,17 +137,18 @@ function NewPostForm({ className, onClose }) {
     });
     group.appendChild(deleteButton);
   };
+
   const getAllImgURL = () => {
     const inputs = document.querySelectorAll(".inputField input");
     return Array.from(inputs).map((input) => input.value);
   };
 
   return (
-    <div className={`new-post-form ${className}`}>
+    <div className={`update-form ${className}`}>
       <div className="form-content">
         <div className="information-section">
-          <h1>Real Estate Information</h1>
-          <form action="" onSubmit={handleSubmit} onKeyDown={handleKeyDown}>
+          <h1>Real Estate Update Informations</h1>
+          <form action="" onKeyDown={handleKeyDown}>
             <div className="left">
               <div className="description">
                 <h2>Description</h2>
@@ -141,6 +157,7 @@ function NewPostForm({ className, onClose }) {
                 <input
                   type="text"
                   id="title"
+                  value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
 
@@ -150,6 +167,7 @@ function NewPostForm({ className, onClose }) {
                   id="description"
                   cols={50}
                   rows={6}
+                  value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
               </div>
@@ -160,6 +178,7 @@ function NewPostForm({ className, onClose }) {
                 <select
                   name="type"
                   id="type"
+                  value={choice}
                   onChange={(e) => setChoice(+e.target.value)}
                 >
                   <option value="0"> For Rent</option>
@@ -171,6 +190,7 @@ function NewPostForm({ className, onClose }) {
                 <select
                   name="property"
                   id="property"
+                  value={type}
                   onChange={(e) => setType(+e.target.value)}
                 >
                   <option value="0"> Apartmet</option>
@@ -184,6 +204,7 @@ function NewPostForm({ className, onClose }) {
                 <input
                   type="number"
                   id="price"
+                  value={price}
                   onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
@@ -193,12 +214,17 @@ function NewPostForm({ className, onClose }) {
                 <input
                   type="text"
                   id="address"
+                  value={address}
                   onChange={(e) => setAddress(e.target.value)}
                 />
               </div>
               <div className="select-location">
                 <h2>Select Location</h2>
-                <SelectLocation onLocationSelect={handleLocationSelect} />
+                <SelectLocation
+                  onLocationSelect={handleLocationSelect}
+                  defaultLat={location ? location.lat : 0}
+                  defaultLng={location ? location.lng : 0}
+                />
                 {location && (
                   <>
                     <label htmlFor="lat">Latitude</label>
@@ -220,7 +246,9 @@ function NewPostForm({ className, onClose }) {
                   >
                     Add new Image URL
                   </button>
-                  <div className="inputField"></div>
+
+                  <div className="inputUpdateField"></div>
+
                   {/* <button onClick={getAllImgURL}>OK</button> */}
                 </div>
               </div>
@@ -230,25 +258,29 @@ function NewPostForm({ className, onClose }) {
                 <input
                   type="number"
                   id="size"
+                  value={area}
                   onChange={(e) => setArea(e.target.value)}
                 />
                 <label htmlFor="bedroom">Bedroom</label>
                 <input
                   type="number"
                   id="bedroom"
-                  onChange={(e) => setBedroom(e.target.value + " phòng ngủ")}
+                  value={bedroom}
+                  onChange={(e) => setBedroom(e.target.value)}
                 />
 
                 <label htmlFor="bathroom">Bathroom</label>
                 <input
                   type="number"
                   id="bathroom"
-                  onChange={(e) => setBathroom(e.target.value + " phòng tắm")}
+                  value={bathroom}
+                  onChange={(e) => setBathroom(e.target.value)}
                 />
-                <label htmlFor="moreDetail">Detail Design</label>
+                <label htmlFor="moreDetail">More</label>
                 <input
                   type="text"
                   id="moreDetail"
+                  value={detail}
                   onChange={(e) => setDetail(e.target.value)}
                 />
               </div>
@@ -258,43 +290,25 @@ function NewPostForm({ className, onClose }) {
                 <input
                   type="text"
                   id="legality"
+                  value={legality}
                   onChange={(e) => setLegality(e.target.value)}
                 />
                 <label htmlFor="status">Status</label>
                 <input
                   type="text"
                   id="status"
+                  value={status}
                   onChange={(e) => setStatus(e.target.value)}
                 />
               </div>
-              {/* <div className="features">
-                <h2>Features</h2>
-                <MultiSelectDropdown />
-              </div> */}
-
-              {/* <div className="nearby-place">
-                <h2>Nearby Places</h2>
-                <label htmlFor="school">School</label>
-                <input type="text" id="school" />
-
-                <label htmlFor="hospital">Hospital</label>
-                <input type="text" id="hospital" />
-
-                <label htmlFor="market">Market</label>
-                <input type="text" id="market" />
-                <label htmlFor="bus-stop">Bus Stop</label>
-                <input type="text" id="bus-stop" />
-                <label htmlFor="restaurant">Restaurant</label>
-                <input type="text" id="restaurant" />
-              </div> */}
 
               <div className="form-actions">
-                <button type="submit" onClick={handleSubmit}>
+                <button type="submit" onClick={handleUpdate}>
                   {" "}
-                  Post
+                  Update
                 </button>
                 <button type="button" onClick={onClose} className="close-btn">
-                  Close
+                  Cancel
                 </button>
               </div>
             </div>
@@ -305,4 +319,4 @@ function NewPostForm({ className, onClose }) {
   );
 }
 
-export default NewPostForm;
+export default UpdateRealEstate;

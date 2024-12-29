@@ -1,0 +1,23 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  max-height: 50%;
+  overflow-y: hidden;
+  button {
+    height: 50px;
+    width: 200px;
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    padding: 0 20px;
+  }
+  .updateOff {
+    background-color: red;
+    color: white;
+  }
+  .updateOn {
+    background-color: greenyellow;
+  }
+}

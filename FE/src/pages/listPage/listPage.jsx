@@ -35,7 +35,7 @@ function ListPage() {
 
     fetchData();
   }, [location.search]); // Re-fetch when search query changes
-  console.log(data.location);
+  console.log(data);
   return (
     <div className="listPage">
       <div className="listContainer">
