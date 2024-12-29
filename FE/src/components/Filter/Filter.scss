@@ -8,19 +8,24 @@
     font-weight: 300;
     font-size: 24px;
   }
-  .top-item{
+  .top-item {
     display: flex;
-    select,input{
+    flex-direction: column;
+    gap: 5px;
+    select,
+    input {
       height: 50px;
-      
       border: 1px solid #888;
     }
-    select{
+    select {
       border-right: 0;
     }
-    input{
+    input {
       padding-left: 20px;
-      border-left:0 ;
+      border-left: 0;
+    }
+    &:last-child {
+      width: 620px;
     }
   }
   .item {
@@ -33,7 +38,7 @@
     }
     input,
     select {
-      width: 130px;
+      width: max-content;
       padding: 10px;
       border: 1px solid #e0e0e0;
       border-radius: 5px;
@@ -41,14 +46,15 @@
     }
   }
   .top {
+    display: flex;
     input {
       width: 100%;
     }
   }
   .bottom {
     display: flex;
-    gap: 10px;
-    justify-content: space-between;
+    gap: 30px;
+
     @include sm {
       overflow-x: scroll;
       height: 80px;

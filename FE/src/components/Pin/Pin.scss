@@ -1,6 +1,7 @@
 .popupContainer {
   display: flex;
   gap: 20px;
+
   img {
     flex: 2;
     width: 50% !important;
@@ -19,4 +20,9 @@
       font-size: 18px;
     }
   }
+}
+.leaflet-popup-content-wrapper {
+  background-color: white;
+  border-radius: 10px;
+  width: max-content;
 }

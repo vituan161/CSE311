@@ -1,8 +1,8 @@
 @import "../../color.scss";
-.new-post-form {
+.update-form {
   background-color: $light-sky-blue;
   width: 70vw;
-  height: 700px;
+  height: 900px;
   border-radius: 10px;
   border: 1px solid #fff;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
@@ -133,10 +133,22 @@
               text-align: center;
               font-weight: 300;
               margin-bottom: 20px;
+              &:first-child {
+                background-color: #2f31c6;
+                color: white;
+              }
+              &:last-child:hover {
+                background-color: #1d219e;
+                color: white;
+                transition: 0.3s;
+              }
+              &:last-child {
+                background-color: #f0f0f0;
+              }
               &:last-child:hover {
                 background-color: rgb(250, 38, 38);
                 color: white;
-                transition: 0.3s;
+                transition: all 0.4s ease-out;
               }
             }
           }
@@ -147,9 +159,9 @@
             background-color: white;
             border-radius: 5px;
             padding: 20px;
-            img {
+            .imgShow {
               height: 150px;
-              width: auto;
+              width: 150px;
             }
             .add-field-btn {
               width: max-content;
@@ -162,12 +174,12 @@
               padding: 0 15px;
             }
 
-            .inputField {
+            .inputUpdateField {
               display: flex;
               flex-direction: column;
               gap: 10px;
               width: 100%;
-              .input-group {
+              .group {
                 width: 100%;
                 input {
                   height: 35px;

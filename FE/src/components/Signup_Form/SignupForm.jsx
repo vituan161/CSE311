@@ -16,7 +16,6 @@ function SignupForm() {
       password: password,
       identiticationNumber: idNumber,
     };
-    console.log(signupData);
     if (password !== confirmPassword) {
       alert("Password and Confirm Password must be the same");
       return null;

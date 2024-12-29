@@ -19,7 +19,7 @@ function ListPage() {
         const url = queryString
           ? `https://localhost:7215/api/RealEstates/Filter?${queryString}`
           : `https://localhost:7215/api/RealEstates`;
-          console.log("Fetching URL:", url); 
+        console.log("Fetching URL:", url);
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -35,7 +35,7 @@ function ListPage() {
 
     fetchData();
   }, [location.search]); // Re-fetch when search query changes
-
+  console.log(data);
   return (
     <div className="listPage">
       <div className="listContainer">
@@ -48,9 +48,9 @@ function ListPage() {
           )}
         </div>
       </div>
-      {/* <div className="mapContainer">
-        <//Map items={data} />
-      </div> */}
+      <div className="mapContainer">
+        <Map items={data} />
+      </div>
     </div>
   );
 }
