@@ -16,7 +16,6 @@ function NewPostForm({ className, onClose }) {
   const [legality, setLegality] = useState("");
   const [status, setStatus] = useState("");
   const [location, setLocation] = useState(null);
-<<<<<<< Updated upstream
   const [bathroom, setBathroom] = useState("");
   const [bedroom, setBedroom] = useState("");
   const [detail, setDetail] = useState("");
@@ -32,9 +31,7 @@ function NewPostForm({ className, onClose }) {
   const formattedExpiryDate = expiryDate.toISOString().split("T")[0];
 
   const token = useSelector((state) => state.token);
-=======
   const [isNewsFormOpen, setIsNewsFormOpen] = useState(false);
->>>>>>> Stashed changes
 
   const handleLocationSelect = (latlng) => {
     setLocation(latlng);
