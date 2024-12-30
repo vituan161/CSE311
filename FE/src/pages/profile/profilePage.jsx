@@ -71,7 +71,7 @@ function ProfilePage() {
                 />
               </span>
               <span>
-                User Name: <b>{account.userName}</b>
+                User Name: <b>{profile.LastName && profile.FirstName ? `${profile.LastName} ${profile.FirstName}` : 'N/A'}</b>
               </span>
               <span>
                 Email: <b>{account.email}</b>

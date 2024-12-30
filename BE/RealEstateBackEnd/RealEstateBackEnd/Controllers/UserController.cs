@@ -39,7 +39,7 @@ namespace RealEstateAPI.Controllers
         {
             var user = new AppUser
             {
-                UserName = model.LastName + model.FirstName,
+                UserName = model.Email,
                 PasswordHash = model.Password,
                 Email = model.Email,
                 Profile = new Profile
@@ -65,6 +65,9 @@ namespace RealEstateAPI.Controllers
             var result = await _userManager.CreateAsync(user, user.PasswordHash);
             if (result.Succeeded)
             {
+                getuser = await _context.AppUser.FirstOrDefaultAsync(u => u.Email == user.Email);
+                getuser.ProfileId = getuser.Profile.Id;
+                await _context.SaveChangesAsync();
                 return Ok();
             }
             return BadRequest(result.Errors);

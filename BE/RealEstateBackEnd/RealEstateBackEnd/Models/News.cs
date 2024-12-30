@@ -11,6 +11,8 @@ namespace RealEstateBackEnd.Models
         [MaxLength(100)]
         public string Title { get; set; } = string.Empty;
         public IList<string> Imageurl { get; set; } = new List<string>();
+        [NotMapped]
+        public IList<IFormFile>? Images { get; set; } = new List<IFormFile>();
         [Required]
         public IList<string> Content { get; set; } = new List<string>();
         public DateTime DateCreated { get; set; }

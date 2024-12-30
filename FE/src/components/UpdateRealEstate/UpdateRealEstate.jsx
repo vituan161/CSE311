@@ -34,7 +34,6 @@ function UpdateRealEstate({ className, onClose, item }) {
   const formattedExpiryDate = expiryDate.toISOString().split("T")[0];
 
   const token = useSelector((state) => state.token);
-
   const handleLocationSelect = (latlng) => {
     setLocation(latlng);
     console.log(latlng);
@@ -67,21 +66,34 @@ function UpdateRealEstate({ className, onClose, item }) {
       choice: choice,
       location: [location.lat, location.lng],
     };
-    console.log(description);
-    console.log(realEstate);
-    console.log(JSON.stringify(realEstate));
+    const formdata = new FormData();
+    formdata.append("name", name);
+    formdata.append("area", area);
+    formdata.append("address", address);
+    formdata.append("Link", "none");
+    formdata.append("description", JSON.stringify([description]));
+    formdata.append("legality", legality);
+    formdata.append("type", type);
+    formdata.append("dateCreated", current);
+    formdata.append("dateExprired", formattedExpiryDate);
+    formdata.append("status", status);
 
+    formdata.append("Prices[0][priceValue]", price);
+    formdata.append("Prices[0][dateCreated]", current);
+    formdata.append("choice", choice);
+    formdata.append("location[]", location.lat);
+    formdata.append("location[]", location.lng);
+    designArray.forEach((item, index) => {
+      formdata.append(`Design`, item);
+    });
     try {
       const response = await axios.put(
         ` https://localhost:7215/api/RealEstates/${item.id}`,
-        item.id,
-
-        realEstate,
+        formdata,
         {
           headers: {
-            Accept: "*/*",
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token.value}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
