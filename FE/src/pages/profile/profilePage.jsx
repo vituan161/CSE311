@@ -9,6 +9,7 @@ import MyList from "../../components/MyList/MyList";
 import UpdateRealEstate from "../../components/UpdateRealEstate/UpdateRealEstate";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { use } from "react";
 function ProfilePage() {
   const [openForm, setOpenForm] = useState(false);
   const token = useSelector((state) => state.token);
@@ -23,7 +24,6 @@ function ProfilePage() {
   const onClose = () => {
     setOpenForm(false);
   };
-
   const [newPost, setNewPost] = useState(false);
   const activeNewPost = () => {
     setNewPost(true);

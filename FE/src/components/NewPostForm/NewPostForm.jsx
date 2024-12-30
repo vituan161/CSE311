@@ -65,7 +65,7 @@ function NewPostForm({ className, onClose }) {
     formdata.append("area", area);
     formdata.append("address", address);
     formdata.append("Link", "none");
-    formdata.append("description", JSON.stringify([description]));
+    formdata.append("Description", JSON.stringify([description]));
     formdata.append("legality", legality);
     formdata.append("type", type);
     formdata.append("dateCreated", current);
@@ -84,7 +84,7 @@ function NewPostForm({ className, onClose }) {
     designArray.forEach((item, index) => {
       formdata.append(`Design`, item);
     });
-
+    
     console.log(formdata);
     try {
       const response = await axios.post(
@@ -93,6 +93,7 @@ function NewPostForm({ className, onClose }) {
         {
           headers: {
             Authorization: `Bearer ${token.value}`,
+
             "Content-Type": "multipart/form-data",
           },
         }

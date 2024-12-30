@@ -19,7 +19,6 @@ function MyList() {
           },
         }
       );
-      console.log(response.data);
       setListData(response.data);
     } catch (error) {
       console.error("Get real estate failed:", error);
@@ -27,7 +26,7 @@ function MyList() {
   };
   useEffect(() => {
     getCompany();
-  }, []);
+  }, [listData]);
   // if (
   //   listData.length > 0 &&
   //   listData[0].prices &&

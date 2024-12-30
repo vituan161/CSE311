@@ -11,6 +11,7 @@
     flex: 3;
     height: 100%;
     overflow-y: scroll;
+    scrollbar-width: thin;
     margin-bottom: 50px;
     @include sm {
       flex: none;
@@ -92,6 +93,7 @@
     background-color: $light-sky-blue;
     height: 100%;
     overflow-y: scroll;
+    scrollbar-width: thin;
     padding: 10px 0;
     @include sm {
       flex: none;

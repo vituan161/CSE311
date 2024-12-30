@@ -20,7 +20,7 @@ function Card({ item, key, isUpdate }) {
   return (
     <div className="card" onClick={activeUpdateForm}>
       <Link to={`/${item.id}`} className="imgContainer">
-        <img src={item.imageurl[0]} alt="" />
+        <img src={`https://localhost:7215/Resources/${item.imageurl[0]}`} alt="" />
       </Link>
       <div className="textContainer">
         <h2 className="title">
