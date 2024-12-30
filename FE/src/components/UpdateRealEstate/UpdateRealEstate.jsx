@@ -32,7 +32,6 @@ function UpdateRealEstate({ className, onClose, item }) {
   expiryDate.setMonth(date.getMonth() + 2);
   // Format the expiry date as YYYY-MM-DD
   const formattedExpiryDate = expiryDate.toISOString().split("T")[0];
-
   const token = useSelector((state) => state.token);
 
   const handleLocationSelect = (latlng) => {
@@ -41,46 +40,66 @@ function UpdateRealEstate({ className, onClose, item }) {
   };
 
   const update = async () => {
-    const realEstate = {
-      name: name,
-      area: area + "mét vuông",
-      address: address,
-      link: "",
-      imageurl: getAllImgURL(),
-      description: description,
-      design: [
-        bedroom + " phòng ngủ",
-        bathroom + " phòng tắm",
-        ...detail.split(",").map((item) => item.trim()),
-      ],
-      legality: legality,
-      type: type,
-      dateCreated: current,
-      dateExprired: formattedExpiryDate,
-      status: status,
-      prices: [
-        {
-          priceValue: price,
-          dateCreated: current,
-        },
-      ],
-      choice: choice,
-      location: [location.lat, location.lng],
-    };
-    console.log(description);
-    console.log(realEstate);
-    console.log(JSON.stringify(realEstate));
+    // const realEstate = {
+    //   name: name,
+    //   area: area + "mét vuông",
+    //   address: address,
+    //   link: "",
+    //   imageurl: getAllImgURL(),
+    //   description: description,
+    //   design: [
+    //     bedroom + " phòng ngủ",
+    //     bathroom + " phòng tắm",
+    //     ...detail.split(",").map((item) => item.trim()),
+    //   ],
+    //   legality: legality,
+    //   type: type,
+    //   dateCreated: current,
+    //   dateExprired: formattedExpiryDate,
+    //   status: status,
+    //   prices: [
+    //     {
+    //       priceValue: price,
+    //       dateCreated: current,
+    //     },
+    //   ],
+    //   choice: choice,
+    //   location: [location.lat, location.lng],
+    // };
 
+    const formdata = new FormData();
+    console.log(token.value);
+    formdata.append("name", name);
+    formdata.append("area", area);
+    formdata.append("address", address);
+    formdata.append("Link", "none");
+    formdata.append("description", JSON.stringify([description]));
+    formdata.append("design", designArray);
+    formdata.append("legality", legality);
+    formdata.append("type", type);
+    formdata.append("dateCreated", current);
+    formdata.append("dateExprired", formattedExpiryDate);
+    formdata.append("status", status);
+
+    formdata.append("Prices[0][priceValue]", price);
+    formdata.append("Prices[0][dateCreated]", current);
+    formdata.append("choice", choice);
+    formdata.append("location[]", location.lat);
+    formdata.append("location[]", location.lng);
+
+    designArray.forEach((design, index) => {
+      formdata.append(`Design`, design);
+    });
+    console.log(formdata);
     try {
       const response = await axios.put(
         ` https://localhost:7215/api/RealEstates/${item.id}`,
         item.id,
-
-        realEstate,
+        formdata,
         {
           headers: {
             Accept: "*/*",
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token.value}`,
           },
         }

@@ -168,7 +168,7 @@ namespace RealEstateBackEnd.Controllers
         // PUT: api/RealEstates/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}"),Authorize]
-        public async Task<IActionResult> PutRealEstate(int id, RealEstate UpdatedrealEstate)
+        public async Task<IActionResult> PutRealEstate(int id, [FromForm] RealEstate UpdatedrealEstate)
         {
             if (id != UpdatedrealEstate.Id)
             {

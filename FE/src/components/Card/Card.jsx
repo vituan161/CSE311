@@ -26,6 +26,7 @@ function Card({ item, key, isUpdate }) {
         <h2 className="title">
           <Link to={`/${item.id}`}>{item.name}</Link>
         </h2>
+        <p>{item.id}</p>
         {/* <p className="isUpdateStatus">Update Mode: {isUpdate ? "ON" : "OFF"}</p> */}
         <p className="address">
           {" "}
