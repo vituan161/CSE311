@@ -1,0 +1,32 @@
+@import "../../color.scss";
+@import "../../responsive.scss";
+
+.newsPage {
+  padding: 20px;
+
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: $dark-text-color;
+    }
+
+    p {
+      font-size: 1rem;
+      color: $gray-text-color;
+    }
+  }
+
+  .newsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+
+    @include sm {
+      grid-template-columns: 1fr;
+    }
+  }
+}

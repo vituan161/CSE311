@@ -1,0 +1,82 @@
+@import "../../responsive.scss";
+@import "../../color.scss";
+
+.news-card {
+  display: flex;
+  gap: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  @include sm {
+    flex-direction: column;
+  }
+
+  .imgContainer {
+    flex: 2;
+    height: 200px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  }
+
+  .textContainer {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #444;
+
+      a {
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+          color: black;
+        }
+      }
+    }
+
+    .summary {
+      font-size: 16px;
+      color: #555;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3; 
+      -webkit-box-orient: vertical;
+    }
+
+    .date {
+      font-size: 14px;
+      color: #888;
+    }
+
+    .actions {
+      .read-more {
+        text-decoration: none;
+        color: $primary-color;
+        font-weight: bold;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
