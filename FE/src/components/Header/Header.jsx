@@ -31,7 +31,7 @@ function Header() {
       <div className={classNameRight}>
         {user ? (
           <div className="user">
-            <img src={profile.ImageURL[0]} alt="" />
+            <img src={`https://localhost:7215/Resources/`+profile.ImageURL[0]} alt="" />
             <span>{profile.LastName + " " + profile.FirstName} </span>
             <Link to={"/profile"} className="profile-btn">
               Profile

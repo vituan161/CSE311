@@ -1,10 +1,24 @@
 import React from "react";
 import "./Card.scss";
+import { useState } from "react";
+import UpdateRealEstate from "../UpdateRealEstate/UpdateRealEstate";
 import { Link } from "react-router-dom";
 
-function Card({ item }) {
+function Card({ item, key, isUpdate }) {
+  const [openUpdate, setOpenUpdate] = useState(false);
+  const activeUpdateForm = () => {
+    if (isUpdate) {
+      setOpenUpdate(true);
+    }
+  };
+  const closeUpdateForm = () => {
+    isUpdate = !isUpdate;
+    setOpenUpdate(false);
+    console.log(openUpdate);
+  };
+
   return (
-    <div className="card">
+    <div className="card" onClick={activeUpdateForm}>
       <Link to={`/${item.id}`} className="imgContainer">
         <img src={item.imageurl[0]} alt="" />
       </Link>
@@ -12,6 +26,7 @@ function Card({ item }) {
         <h2 className="title">
           <Link to={`/${item.id}`}>{item.name}</Link>
         </h2>
+        {/* <p className="isUpdateStatus">Update Mode: {isUpdate ? "ON" : "OFF"}</p> */}
         <p className="address">
           {" "}
           <img src="./pin.png" alt="" />
@@ -37,6 +52,13 @@ function Card({ item }) {
           </div>
         </div>
       </div>
+      {openUpdate && (
+        <UpdateRealEstate
+          className={openUpdate && isUpdate ? "active" : "non-active"}
+          onClose={closeUpdateForm}
+          item={item}
+        />
+      )}
     </div>
   );
 }

@@ -71,6 +71,10 @@ function App() {
           path: "/company/:id",
           element: <SingleCompany />,
         },
+        {
+          path: "/news/:id",
+          element: <newsSinglePage />,
+        },
       ],
     },
   ]);

@@ -29,6 +29,11 @@ function Filter() {
   });
 
   const [provinces, setProvinces] = useState([]);
+  const [cities, setCities] = useState(() => {
+    const city = params.get("city") || "";
+    const province = params.get("province") || "";
+    return (city || "") + " " + (province || "");
+  });
 
   useEffect(() => {
     fetch("https://open.oapi.vn/location/provinces?size=63")
@@ -46,19 +51,22 @@ function Filter() {
       params.append("type", propertyTypeMapping[query.propertyType]);
     if (query.minPrice) params.append("minPrice", query.minPrice);
     if (query.maxPrice) params.append("maxPrice", query.maxPrice);
+    setCities(query.city + " " + query.province);
     navigate(`/list?${params.toString()}`);
   };
 
   return (
     <div className="filter">
-      <h1>Search results for</h1>
+      <h1>Search results for {cities}</h1>
       <div className="top">
-        <label htmlFor="province">Province</label>
         <div className="top-item">
+          <label htmlFor="province">Province</label>
           <select
             name="province"
             value={query.province}
-            onChange={(e) => setQuery((prev) => ({ ...prev, province: e.target.value }))}
+            onChange={(e) =>
+              setQuery((prev) => ({ ...prev, province: e.target.value }))
+            }
           >
             <option value="">Choose Province</option>
             {provinces.map((province) => (
@@ -69,14 +77,16 @@ function Filter() {
           </select>
         </div>
 
-        <label htmlFor="city">City</label>
         <div className="top-item">
+          <label htmlFor="city">City</label>
           <input
             type="text"
             name="city"
             placeholder="Enter City"
             value={query.city}
-            onChange={(e) => setQuery((prev) => ({ ...prev, city: e.target.value }))}
+            onChange={(e) =>
+              setQuery((prev) => ({ ...prev, city: e.target.value }))
+            }
           />
         </div>
       </div>
@@ -87,7 +97,9 @@ function Filter() {
           <select
             name="choice"
             value={query.choice}
-            onChange={(e) => setQuery((prev) => ({ ...prev, choice: e.target.value }))}
+            onChange={(e) =>
+              setQuery((prev) => ({ ...prev, choice: e.target.value }))
+            }
           >
             <option value="0">For Sale</option>
             <option value="1">For Rent</option>
@@ -100,7 +112,9 @@ function Filter() {
           <select
             name="propertyType"
             value={query.propertyType}
-            onChange={(e) => setQuery((prev) => ({ ...prev, propertyType: e.target.value }))}
+            onChange={(e) =>
+              setQuery((prev) => ({ ...prev, propertyType: e.target.value }))
+            }
           >
             <option value="">Choose Property Type</option>
             <option value="apartment">Apartment</option>
@@ -109,7 +123,6 @@ function Filter() {
           </select>
         </div>
 
-
         <div className="item">
           <label htmlFor="minPrice">Min Price</label>
           <input
@@ -117,7 +130,9 @@ function Filter() {
             name="minPrice"
             placeholder="Min Price"
             value={query.minPrice}
-            onChange={(e) => setQuery((prev) => ({ ...prev, minPrice: e.target.value }))}
+            onChange={(e) =>
+              setQuery((prev) => ({ ...prev, minPrice: e.target.value }))
+            }
             min={0}
           />
         </div>
@@ -129,7 +144,9 @@ function Filter() {
             name="maxPrice"
             placeholder="Max Price"
             value={query.maxPrice}
-            onChange={(e) => setQuery((prev) => ({ ...prev, maxPrice: e.target.value }))}
+            onChange={(e) =>
+              setQuery((prev) => ({ ...prev, maxPrice: e.target.value }))
+            }
             min={0}
           />
         </div>

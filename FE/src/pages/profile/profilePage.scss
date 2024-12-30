@@ -8,6 +8,7 @@
     flex: 5;
     gap: 20px;
     overflow-y: scroll;
+    scrollbar-width: thin;
     margin-bottom: 50px;
     .wrapper {
       padding-right: 50px;
@@ -23,6 +24,11 @@
           background-color: orange;
           cursor: pointer;
           border: none;
+        }
+        .toggleUpdate {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
         }
       }
       .info {

@@ -41,15 +41,7 @@ const handlePutProfile = async (token, dispatch, profile) => {
         console.log(profile);
         console.log(token);
         const response = await putProfile(token, profile);
-        dispatch(setFirstName(profile.FirstName));
-        dispatch(setLastName(profile.LastName));
-        dispatch(setAddress(profile.Address));
-        dispatch(setImageURL(profile.ImageURL));
-        dispatch(setDoB(profile.DoB));
-        dispatch(setPhone(profile.PhoneNumber));
-        dispatch(setRating(profile.rating));
-        dispatch(setIdentiticationNumber(profile.IdentiticationNumber));
-        dispatch(setDescription(profile.Description));
+        handleGetProfile(token, dispatch);
     } catch (error) {
         window.alert("Set profile failed");
     }

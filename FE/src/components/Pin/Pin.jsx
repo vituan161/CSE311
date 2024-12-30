@@ -7,19 +7,19 @@ import "./Pin.scss";
 function Pin({ item }) {
   const redIcon = new Icon({
     iconUrl: "/pin-red.png", // Default Leaflet red icon
-    iconSize: [28, 41], // Size of the icon
-    iconAnchor: [28, 41], // Anchor point of the icon
-    popupAnchor: [-15, -30], // Popup position
+    iconSize: [23, 36], // Size of the icon
+    iconAnchor: [23, 36], // Anchor point of the icon
+    popupAnchor: [-12, -30], // Popup position
   });
   return (
-    <Marker position={[item.latitude, item.longitude]} icon={redIcon}>
+    <Marker position={[item.location[0], item.location[1]]} icon={redIcon}>
       <Popup>
         <div className="popupContainer">
-          <img src={item.images} alt="" />
+          <img src={item.imageurl[0]} alt="" />
           <div className="textContainer">
-            <Link to={`/${item.id}`}>{item.title}</Link>
-            <span>Bedroom: {item.bedroom}</span>
-            <b>{item.price}$</b>
+            <Link to={`/${item.id}`}>{item.name}</Link>
+            <span>Area: {item.area}</span>
+            <b>{item.prices[0].priceValue}$</b>
           </div>
         </div>
       </Popup>
