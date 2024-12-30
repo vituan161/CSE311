@@ -14,6 +14,8 @@ namespace RealEstateBackEnd.Models
         public string? Address { get; set; }
         public DateOnly DoB { get; set; }
         public IList<string> ImageURL { get; set; } = new List<string>();
+        [NotMapped]
+        public IList<IFormFile>? Images { get; set; } = new List<IFormFile>();
         [Display(Name = "Phone number")]
         [RegularExpression("[0-9]{10}")]
         public string PhoneNumber { get; set; } = string.Empty;

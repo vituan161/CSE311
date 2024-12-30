@@ -9,6 +9,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(128, 128, 128, 0.5);
+  
   &.active {
     display: flex;
   }
@@ -30,6 +32,8 @@
       border-right: 1px solid #ddd;
       padding: 20px;
       background-color: #f9f9f9;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
       .info {
         display: flex;
         flex-direction: column;
@@ -79,7 +83,9 @@
     .form-content {
       flex: 1;
       padding: 20px;
-
+      max-height: 95vh;
+      overflow-y: scroll;
+      scrollbar-width: none;
       h1 {
         font-size: 25px;
         margin-bottom: 20px;

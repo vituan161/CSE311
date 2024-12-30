@@ -153,12 +153,12 @@
             }
             .add-field-btn {
               width: max-content;
-              height: 40px;
+              height: 20px;
               border-radius: 5px;
               border: none;
               background-color: #04a96d;
               color: white;
-              font-size: 24px;
+              font-size: 15px;
               padding: 0 15px;
             }
 
@@ -169,23 +169,17 @@
               width: 100%;
               .input-group {
                 width: 100%;
-                input {
-                  height: 35px;
-                  width: 85%;
-                  padding: 15px;
-                  border: 1px solid #bebebe;
-                  border-right: none;
-                  border-radius: 5px 0 0 5px;
-                }
-                .delete {
-                  height: 35px;
-                  padding: 0 10px;
-                  color: white;
-                  font-weight: 600;
-                  background-color: #d11a2a;
-                  border-left: none;
-                  border: 1px solid #bebebe;
-                  border-radius: 0 5px 5px 0;
+                .upload-component {
+                  .delete {
+                    height: 35px;
+                    padding: 0 10px;
+                    color: white;
+                    font-weight: 600;
+                    background-color: #d11a2a;
+                    border-left: none;
+                    border: 1px solid #bebebe;
+                    border-radius: 0 5px 5px 0;
+                  }
                 }
               }
             }

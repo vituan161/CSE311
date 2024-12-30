@@ -65,7 +65,7 @@ function ProfilePage() {
             <div className="infowrap">
               <span>
                 Avatar:
-                <img src={profile.ImageURL[0]} alt="" />
+                <img src={`https://localhost:7215/Resources/`+profile.ImageURL[0]} alt="" />
               </span>
               <span>
                 User Name: <b>{account.userName}</b>
