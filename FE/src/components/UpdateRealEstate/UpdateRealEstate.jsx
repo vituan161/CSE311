@@ -144,175 +144,187 @@ function UpdateRealEstate({ className, onClose, item }) {
   };
 
   return (
-    <div className={`update-form ${className}`}>
-      <div className="form-content">
-        <div className="information-section">
-          <h1>Real Estate Update Informations</h1>
-          <form action="" onKeyDown={handleKeyDown}>
-            <div className="left">
-              <div className="description">
-                <h2>Description</h2>
+    <div className="overlay">
+      <div className={`update-form ${className}`}>
+        <div className="form-content">
+          <div className="information-section">
+            <h1>Real Estate Update Informations</h1>
+            <form action="" onKeyDown={handleKeyDown}>
+              <div className="left">
+                <div className="description">
+                  <h2>Description</h2>
 
-                <label htmlFor="title">Title</label>
-                <input
-                  type="text"
-                  id="title"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+                  <label htmlFor="title">Title</label>
+                  <input
+                    type="text"
+                    id="title"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
 
-                <label htmlFor="description"> Real Estate Description</label>
-                <textarea
-                  name="description"
-                  id="description"
-                  cols={50}
-                  rows={6}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                ></textarea>
-              </div>
-              <div className="category">
-                <h2>Category</h2>
+                  <label htmlFor="description"> Real Estate Description</label>
+                  <textarea
+                    name="description"
+                    id="description"
+                    cols={50}
+                    rows={6}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></textarea>
+                </div>
+                <div className="category">
+                  <h2>Category</h2>
 
-                <label htmlFor="type">Type</label>
-                <select
-                  name="type"
-                  id="type"
-                  value={choice}
-                  onChange={(e) => setChoice(+e.target.value)}
-                >
-                  <option value="0"> For Rent</option>
-                  <option value="1"> For Sale</option>
-                  <option value="2"> Project</option>
-                </select>
-
-                <label htmlFor="property">Property</label>
-                <select
-                  name="property"
-                  id="property"
-                  value={type}
-                  onChange={(e) => setType(+e.target.value)}
-                >
-                  <option value="0"> Apartmet</option>
-                  <option value="1"> House</option>
-                  <option value="2"> Land</option>
-                </select>
-              </div>
-              <div className="price-section">
-                <h2>Pricing</h2>
-                <label htmlFor="price">Price</label>
-                <input
-                  type="number"
-                  id="price"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-              </div>
-              <div className="address-section">
-                <h2>Address</h2>
-                <label htmlFor="address">Address</label>
-                <input
-                  type="text"
-                  id="address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </div>
-              <div className="select-location">
-                <h2>Select Location</h2>
-                <SelectLocation
-                  onLocationSelect={handleLocationSelect}
-                  defaultLat={location ? location.lat : 0}
-                  defaultLng={location ? location.lng : 0}
-                />
-                {location && (
-                  <>
-                    <label htmlFor="lat">Latitude</label>
-                    <input type="text" id="lat" value={location.lat} readOnly />
-                    <label htmlFor="lng">Longitude</label>
-                    <input type="text" id="lng" value={location.lng} readOnly />
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="right">
-              <div className="upload-img">
-                <h2>Images</h2>
-                <div className="upload-img">
-                  <button
-                    type="button"
-                    onClick={addInput}
-                    className="add-field-btn"
+                  <label htmlFor="type">Type</label>
+                  <select
+                    name="type"
+                    id="type"
+                    value={choice}
+                    onChange={(e) => setChoice(+e.target.value)}
                   >
-                    Add new Image URL
-                  </button>
+                    <option value="0"> For Rent</option>
+                    <option value="1"> For Sale</option>
+                    <option value="2"> Project</option>
+                  </select>
 
-                  <div className="inputUpdateField"></div>
-
-                  {/* <button onClick={getAllImgURL}>OK</button> */}
+                  <label htmlFor="property">Property</label>
+                  <select
+                    name="property"
+                    id="property"
+                    value={type}
+                    onChange={(e) => setType(+e.target.value)}
+                  >
+                    <option value="0"> Apartmet</option>
+                    <option value="1"> House</option>
+                    <option value="2"> Land</option>
+                  </select>
+                </div>
+                <div className="price-section">
+                  <h2>Pricing</h2>
+                  <label htmlFor="price">Price</label>
+                  <input
+                    type="number"
+                    id="price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                </div>
+                <div className="address-section">
+                  <h2>Address</h2>
+                  <label htmlFor="address">Address</label>
+                  <input
+                    type="text"
+                    id="address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+                <div className="select-location">
+                  <h2>Select Location</h2>
+                  <SelectLocation
+                    onLocationSelect={handleLocationSelect}
+                    defaultLat={location ? location.lat : 0}
+                    defaultLng={location ? location.lng : 0}
+                  />
+                  {location && (
+                    <>
+                      <label htmlFor="lat">Latitude</label>
+                      <input
+                        type="text"
+                        id="lat"
+                        value={location.lat}
+                        readOnly
+                      />
+                      <label htmlFor="lng">Longitude</label>
+                      <input
+                        type="text"
+                        id="lng"
+                        value={location.lng}
+                        readOnly
+                      />
+                    </>
+                  )}
                 </div>
               </div>
-              <div className="room-size">
-                <h2>Design And Room Size</h2>
-                <label htmlFor="size">Size</label>
-                <input
-                  type="number"
-                  id="size"
-                  value={area}
-                  onChange={(e) => setArea(e.target.value)}
-                />
-                <label htmlFor="bedroom">Bedroom</label>
-                <input
-                  type="number"
-                  id="bedroom"
-                  value={bedroom}
-                  onChange={(e) => setBedroom(e.target.value)}
-                />
+              <div className="right">
+                <div className="upload-img">
+                  <h2>Images</h2>
+                  <div className="upload-img">
+                    <button
+                      type="button"
+                      onClick={addInput}
+                      className="add-field-btn"
+                    >
+                      Add new Image URL
+                    </button>
 
-                <label htmlFor="bathroom">Bathroom</label>
-                <input
-                  type="number"
-                  id="bathroom"
-                  value={bathroom}
-                  onChange={(e) => setBathroom(e.target.value)}
-                />
-                <label htmlFor="moreDetail">More</label>
-                <input
-                  type="text"
-                  id="moreDetail"
-                  value={detail}
-                  onChange={(e) => setDetail(e.target.value)}
-                />
-              </div>
-              <div className="status-wrapper">
-                <h2> Legality and Status</h2>
-                <label htmlFor="legality">Legality</label>
-                <input
-                  type="text"
-                  id="legality"
-                  value={legality}
-                  onChange={(e) => setLegality(e.target.value)}
-                />
-                <label htmlFor="status">Status</label>
-                <input
-                  type="text"
-                  id="status"
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                />
-              </div>
+                    <div className="inputUpdateField"></div>
 
-              <div className="form-actions">
-                <button type="submit" onClick={handleUpdate}>
-                  {" "}
-                  Update
-                </button>
-                <button type="button" onClick={onClose} className="close-btn">
-                  Cancel
-                </button>
+                    {/* <button onClick={getAllImgURL}>OK</button> */}
+                  </div>
+                </div>
+                <div className="room-size">
+                  <h2>Design And Room Size</h2>
+                  <label htmlFor="size">Size</label>
+                  <input
+                    type="number"
+                    id="size"
+                    value={area}
+                    onChange={(e) => setArea(e.target.value)}
+                  />
+                  <label htmlFor="bedroom">Bedroom</label>
+                  <input
+                    type="number"
+                    id="bedroom"
+                    value={bedroom}
+                    onChange={(e) => setBedroom(e.target.value)}
+                  />
+
+                  <label htmlFor="bathroom">Bathroom</label>
+                  <input
+                    type="number"
+                    id="bathroom"
+                    value={bathroom}
+                    onChange={(e) => setBathroom(e.target.value)}
+                  />
+                  <label htmlFor="moreDetail">More</label>
+                  <input
+                    type="text"
+                    id="moreDetail"
+                    value={detail}
+                    onChange={(e) => setDetail(e.target.value)}
+                  />
+                </div>
+                <div className="status-wrapper">
+                  <h2> Legality and Status</h2>
+                  <label htmlFor="legality">Legality</label>
+                  <input
+                    type="text"
+                    id="legality"
+                    value={legality}
+                    onChange={(e) => setLegality(e.target.value)}
+                  />
+                  <label htmlFor="status">Status</label>
+                  <input
+                    type="text"
+                    id="status"
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                  />
+                </div>
+
+                <div className="form-actions">
+                  <button type="submit" onClick={handleUpdate}>
+                    {" "}
+                    Update
+                  </button>
+                  <button type="button" onClick={onClose} className="close-btn">
+                    Cancel
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>

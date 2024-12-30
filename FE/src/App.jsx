@@ -11,8 +11,10 @@ import ProfilePage from "./pages/profile/profilePage";
 import NewsPage from "./pages/newsPage/newsPage";
 import Company from "./pages/company/Company";
 import SingleCompany from "./pages/singleCompany/singleCompany";
-import List from "./components/List/List";
-import PrivateRoute from "./components/PrivateRoute";
+import AdminPage from "./pages/adminPage/adminPage";
+import { useSelector } from "react-redux";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -70,6 +72,10 @@ function App() {
         {
           path: "/company/:id",
           element: <SingleCompany />,
+        },
+        {
+          path: "/admin",
+          element: <AdminPage />,
         },
       ],
     },

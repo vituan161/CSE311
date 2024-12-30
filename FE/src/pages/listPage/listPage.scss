@@ -22,7 +22,7 @@
   }
   .mapContainer {
     flex: 2;
-    background-color: $light-sky-blue;
+
     @include sm {
       display: none;
     }

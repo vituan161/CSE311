@@ -53,11 +53,13 @@ function Card({ item, key, isUpdate }) {
         </div>
       </div>
       {openUpdate && (
+        // <div className="overlay">
         <UpdateRealEstate
           className={openUpdate && isUpdate ? "active" : "non-active"}
           onClose={closeUpdateForm}
           item={item}
         />
+        // </div>
       )}
     </div>
   );

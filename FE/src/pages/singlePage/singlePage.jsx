@@ -13,6 +13,7 @@ function SinglePage() {
   const [design, setDesign] = useState([]);
   const [price, setPrice] = useState();
   const [postForMap, setPostForMap] = useState([]);
+  const [error, setError] = useState(false);
   // useEffect(() => {
   //   const foundPost = singlePostDataList.find(
   //     (item) => item.id.toString() === id
@@ -34,11 +35,24 @@ function SinglePage() {
       setPostForMap([response.data]);
     } catch (error) {
       console.error("Get post failed:", error);
+
+      setError(true);
     }
   };
   useEffect(() => {
     getPost();
   }, []);
+  if (error) {
+    return (
+      <div className="not-found">
+        <h1>404</h1>
+        <p>The post you are looking for was not found.</p>
+      </div>
+    );
+  }
+  if (!post) {
+    return <div>Loading.....</div>;
+  }
 
   return (
     <div className="singlePage">

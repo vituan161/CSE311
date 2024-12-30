@@ -1,0 +1,135 @@
+.adminPage {
+  padding: 20px;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .toggle-modal {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  .userList {
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+        cursor: pointer;
+        background-color: #f4f4f4;
+      }
+
+      th button {
+        background: none;
+        border: none;
+        color: inherit;
+        cursor: pointer;
+        padding: 0;
+        font-size: inherit;
+      }
+
+      th {
+        &:hover {
+          background-color: #ddd;
+        }
+
+        &.sorted-asc {
+          background-color: #d3f9d8;
+        }
+
+        &.sorted-desc {
+          background-color: #f9d3d3;
+        }
+      }
+
+      td {
+        border: 1px solid #ccc;
+        padding: 10px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+    }
+
+    .action-button {
+      padding: 5px 10px;
+      margin-right: 5px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+
+      &.edit-button {
+        background-color: #4caf50;
+        color: white;
+
+        &:hover {
+          background-color: #45a049;
+        }
+      }
+
+      &.delete-button {
+        background-color: #f44336;
+        color: white;
+
+        &:hover {
+          background-color: #d32f2f;
+        }
+      }
+    }
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+
+    h2 {
+      margin-bottom: 15px;
+    }
+
+    p {
+      margin-bottom: 20px;
+    }
+
+    .close-modal {
+      background-color: #f44336;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #d32f2f;
+      }
+    }
+  }
+}

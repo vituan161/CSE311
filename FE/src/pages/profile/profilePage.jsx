@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./profilePage.scss";
 import List from "../../components/List/List";
 import UpdateProfileForm from "../../components/UpdateProfileForm/UpdateProfileForm";
@@ -7,11 +7,15 @@ import { useSelector } from "react-redux";
 import UpdateToggle from "../../components/UpdateToggle/UpdateToggle";
 import MyList from "../../components/MyList/MyList";
 import UpdateRealEstate from "../../components/UpdateRealEstate/UpdateRealEstate";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function ProfilePage() {
   const [openForm, setOpenForm] = useState(false);
   const token = useSelector((state) => state.token);
   const profile = useSelector((state) => state.profile);
   const account = useSelector((state) => state.account);
+  console.log(account.role);
+  const navigateTo = useNavigate();
 
   const activeForm = () => {
     setOpenForm(true);
@@ -28,16 +32,28 @@ function ProfilePage() {
     setNewPost(false);
   };
 
+  const goToAdminPage = () => {
+    navigateTo("/admin");
+  };
+  const [buttonText, setButtonText] = useState("Admin");
+
+  const handleMouseEnter = () => setButtonText("Go to Admin Page");
+  const handleMouseLeave = () => setButtonText("Admin");
+
   return (
     <div className="profilePage">
-      <UpdateProfileForm
-        className={openForm ? "active" : "non-active"}
-        onClose={onClose}
-      />
-      <NewPostForm
-        className={newPost ? "active" : "non-active"}
-        onClose={closeNewPost}
-      />
+      <div className={`overlay ${openForm ? "active" : "non-active"}`}>
+        <UpdateProfileForm
+          className={openForm ? "active" : "non-active"}
+          onClose={onClose}
+        />
+      </div>
+      <div className={`overlay ${newPost ? "active" : "non-active"}`}>
+        <NewPostForm
+          className={newPost ? "active" : "non-active"}
+          onClose={closeNewPost}
+        />
+      </div>
 
       <div className="details">
         <div className="wrapper">
@@ -45,7 +61,7 @@ function ProfilePage() {
             <h1>User Information</h1>
             <button onClick={activeForm}>Update Profile</button>
           </div>
-          <div className="info">
+          <div className={`info ${account.role === 0 ? "admin" : "user"}`}>
             <div className="infowrap">
               <span>
                 Avatar:
@@ -57,6 +73,16 @@ function ProfilePage() {
               <span>
                 Email: <b>{account.email}</b>
               </span>
+              {account.role === 0 && (
+                <button
+                  onClick={goToAdminPage}
+                  className="admin-button golden-btn"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  {buttonText}
+                </button>
+              )}
             </div>
             <div className="description">
               <h3>Description:</h3>
