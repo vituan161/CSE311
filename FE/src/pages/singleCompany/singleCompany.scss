@@ -20,15 +20,28 @@
           border-radius: 10px;
         }
       }
-      .description {
+      .content {
         display: flex;
         flex-direction: column;
         gap: 10px;
+        .contact {
+          display: flex;
+          gap: 20px;
+          p {
+            display: flex;
+            gap: 10px;
+          }
+        }
+        .description {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
 
-        font-size: 16px;
-        color: #111111;
-        p {
-          line-height: 1.5;
+          font-size: 16px;
+          color: #111111;
+          p {
+            line-height: 1.5;
+          }
         }
       }
     }

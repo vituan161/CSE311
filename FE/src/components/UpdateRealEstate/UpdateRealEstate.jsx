@@ -37,6 +37,7 @@ function UpdateRealEstate({ className, onClose, item }) {
 
   const handleLocationSelect = (latlng) => {
     setLocation(latlng);
+    console.log(latlng);
   };
 
   const update = async () => {

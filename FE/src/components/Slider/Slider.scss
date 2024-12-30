@@ -66,6 +66,8 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
+    overflow: scroll;
+    scrollbar-width: none;
     img {
       height: 100px;
     }

@@ -75,11 +75,11 @@ function MyList() {
             item={item}
             isUpdate={updateModes[item.id] || false}
           />
-          {/* <button onClick={() => toggleCardUpdateMode(item.id)}>
+          <button onClick={() => toggleCardUpdateMode(item.id)}>
             {updateModes[item.id]
               ? "Turn OFF Update Mode"
               : "Turn ON Update Mode"}
-          </button> */}
+          </button>
         </div>
       ))}
     </div>

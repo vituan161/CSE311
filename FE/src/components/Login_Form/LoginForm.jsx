@@ -22,7 +22,7 @@ function LoginForm() {
       if (response) {
         window.alert("Login successfully");
         await handleToken(response.accessToken, dispatch);
-        await handleGetProfile(response.accessToken,dispatch);
+        await handleGetProfile(response.accessToken, dispatch);
         navigateTo("/");
       }
     } catch (error) {
@@ -31,7 +31,7 @@ function LoginForm() {
   };
 
   return (
-    <form className="form">
+    <form className="login-form">
       <h1>Login</h1>
 
       <div className="input-box">

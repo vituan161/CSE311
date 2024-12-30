@@ -4,14 +4,26 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAt, faLock } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { setFirstName } from "../../Store/feature/ProfileSlide";
 function SignupForm() {
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const navigateTo = useNavigate();
-  const signup = async (email, password, confirmPassword, idNumber) => {
+  const signup = async (
+    firsrName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    idNumber
+  ) => {
     const signupData = {
+      firstName: firsrName,
+      lastName: lastName,
       email: email,
       password: password,
       identiticationNumber: idNumber,
@@ -45,7 +57,14 @@ function SignupForm() {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await signup(email, password, confirmPassword, idNumber);
+      const response = await signup(
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+        idNumber
+      );
     } catch (error) {
       console.error("hello:", error);
     }
@@ -54,6 +73,24 @@ function SignupForm() {
   return (
     <div className="form">
       <h1>SignUp</h1>
+      <div className="input-box">
+        <input
+          type="text"
+          onChange={(e) => setFirstName(e.target.value)}
+          className="email-signup"
+          placeholder="First Name"
+        />
+        <FontAwesomeIcon icon={faAt} className="form-icon" />
+      </div>
+      <div className="input-box">
+        <input
+          type="text"
+          onChange={(e) => setLastName(e.target.value)}
+          className="email-signup"
+          placeholder="Last Name"
+        />
+        <FontAwesomeIcon icon={faAt} className="form-icon" />
+      </div>
 
       <div className="input-box">
         <input

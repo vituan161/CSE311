@@ -41,6 +41,7 @@ function SinglePage() {
   useEffect(() => {
     getPost();
   }, []);
+  console.log(design);
   if (error) {
     return (
       <div className="not-found">

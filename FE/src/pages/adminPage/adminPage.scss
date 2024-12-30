@@ -1,10 +1,5 @@
 .adminPage {
   padding: 20px;
-
-  h1 {
-    margin-bottom: 20px;
-  }
-
   .toggle-modal {
     background-color: #007bff;
     color: white;
@@ -19,74 +14,80 @@
     }
   }
 
-  .userList {
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+  }
+
+  .table-section {
+    margin-bottom: 2rem;
+
+    button {
+      // thead button
+      display: inline-block;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #000;
+      background-color: transparent;
+      border: 1px solid transparent;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
+      transition: background-color 0.15s ease-in-out;
+
+      &:hover {
+        background-color: #e0e0e0;
+      }
+    }
+
     table {
       width: 100%;
+      margin-top: 1rem;
       border-collapse: collapse;
+      border-spacing: 0;
 
-      th {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: left;
-        cursor: pointer;
-        background-color: #f4f4f4;
-      }
-
-      th button {
-        background: none;
-        border: none;
-        color: inherit;
-        cursor: pointer;
-        padding: 0;
-        font-size: inherit;
-      }
-
-      th {
-        &:hover {
-          background-color: #ddd;
-        }
-
-        &.sorted-asc {
-          background-color: #d3f9d8;
-        }
-
-        &.sorted-desc {
-          background-color: #f9d3d3;
-        }
-      }
-
+      th,
       td {
-        border: 1px solid #ccc;
-        padding: 10px;
+        padding: 0.75rem;
+        vertical-align: top;
+        border: 1px solid #dee2e6;
       }
 
-      tr:nth-child(even) {
-        background-color: #f9f9f9;
+      th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+        text-align: left;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      tbody tr:hover {
+        background-color: #e9ecef;
       }
     }
 
     .action-button {
-      padding: 5px 10px;
-      margin-right: 5px;
-      border: none;
-      border-radius: 3px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 0.4rem 0.75rem;
+      border: 1px solid transparent;
+      border-radius: 0.25rem;
       cursor: pointer;
-
-      &.edit-button {
-        background-color: #4caf50;
-        color: white;
-
-        &:hover {
-          background-color: #45a049;
-        }
-      }
+      transition: background-color 0.15s ease-in-out;
 
       &.delete-button {
-        background-color: #f44336;
-        color: white;
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
 
         &:hover {
-          background-color: #d32f2f;
+          background-color: #c82333;
+          border-color: #bd2130;
         }
       }
     }
@@ -102,33 +103,44 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+    z-index: 1050;
 
-  .modal {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    text-align: center;
+    .modal {
+      background-color: #fff;
+      border-radius: 0.3rem;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+      padding: 1.5rem;
+      max-width: 500px;
+      width: 100%;
+      position: relative;
 
-    h2 {
-      margin-bottom: 15px;
-    }
+      h2 {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
 
-    p {
-      margin-bottom: 20px;
-    }
+      p {
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+        color: #6c757d;
+      }
 
-    .close-modal {
-      background-color: #f44336;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+      .close-modal {
+        display: inline-block;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #fff;
+        background-color: #f76f6f;
+        border: 1px solid transparent;
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
 
-      &:hover {
-        background-color: #d32f2f;
+        &:hover {
+          background-color: #eb2121;
+        }
       }
     }
   }

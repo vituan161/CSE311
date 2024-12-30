@@ -30,7 +30,8 @@
   form {
     border: 1px solid rgb(182, 182, 182);
     display: flex;
-
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
     justify-content: space-between;
     height: 64px;
     gap: 5px;

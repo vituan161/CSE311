@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./singleCompany.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAt, faLock, faPhone } from "@fortawesome/free-solid-svg-icons";
 import Slider from "../../components/Slider/Slider";
 
 const SingleCompany = () => {
@@ -23,6 +25,7 @@ const SingleCompany = () => {
   };
   useEffect(() => {
     getCompany();
+    console.log(company);
   }, []);
 
   return (
@@ -35,9 +38,21 @@ const SingleCompany = () => {
           </div>
           <div className="content">
             <h1>{company.name}</h1>
-            <p>{company.location}</p>
-            <p>{company.email}</p>
-            <p>{company.phone}</p>
+            <div className="address">
+              <p>Address: {company.address}</p>
+            </div>
+            <h3>Contact</h3>
+            <div className="contact">
+              <p>
+                <FontAwesomeIcon icon={faAt} />
+                {company.email}
+              </p>
+              <p>
+                <FontAwesomeIcon icon={faPhone} />
+                {company.phone}
+              </p>
+            </div>
+
             <div className="description">
               <h3>Description</h3>
               <p>{company.description}</p>
@@ -46,7 +61,7 @@ const SingleCompany = () => {
         </div>
       </div>
 
-      <div className="right">News</div>
+      <div className="right">News from {company.name}</div>
     </div>
   );
 };
