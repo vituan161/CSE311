@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Slider from "../../components/Slider/Slider";
-import "./singlePage.scss";
+import "./newsSinglePage.scss";
 
 function SingleNewsPage() {
   const { id } = useParams();

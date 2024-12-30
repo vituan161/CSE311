@@ -2,25 +2,30 @@ import React from "react";
 import "./News.scss";
 import { Link } from "react-router-dom";
 
-function News({ item }) {
+function News({ news }) {
+  console.log("News Item:", news);
+  if (!news) {
+    return <div>News item is missing</div>;
+  }
+
   return (
     <div className="news-card">
-      <Link to={`/news/${item.id}`} className="imgContainer">
-        <img src={item.imageurl[0]} alt={item.title} />
+      <Link to={`/news/${news.id}`} className="imgContainer">
+        <img src={news.imageurl[0]} alt={news.title} />
       </Link>
       <div className="textContainer">
         <h2 className="title">
-          <Link to={`/news/${item.id}`}>{item.title}</Link>
+          <Link to={`/news/${news.id}`}>{news.title}</Link>
         </h2>
 
-        <p className="summary">{item.content[0]}</p>
+        <p className="summary">{news.content[0]}</p>
 
         <p className="date">
-          Published: {new Date(item.dateCreated).toLocaleDateString()}
+          Published: {new Date(news.dateCreated).toLocaleDateString()}
         </p>
 
         <div className="actions">
-          <Link to={`/news/${item.id}`} className="read-more">
+          <Link to={`/news/${news.id}`} className="read-more">
             Read More
           </Link>
         </div>

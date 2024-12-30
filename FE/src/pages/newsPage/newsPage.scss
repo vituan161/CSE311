@@ -3,6 +3,7 @@
 
 .newsPage {
   padding: 20px;
+  background-color: #f9f9f9;
 
   .header {
     text-align: center;
@@ -11,12 +12,13 @@
     h1 {
       font-size: 2.5rem;
       font-weight: bold;
-      color: $dark-text-color;
+      color: #333;
     }
 
     p {
-      font-size: 1rem;
-      color: $gray-text-color;
+      font-size: 1.1rem;
+      color: #666;
+      margin-top: 10px;
     }
   }
 

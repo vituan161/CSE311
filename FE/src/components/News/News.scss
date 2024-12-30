@@ -1,76 +1,67 @@
-@import "../../responsive.scss";
-@import "../../color.scss";
-
 .news-card {
-  display: flex;
-  gap: 20px;
+  background-color: #fff;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 20px;
-  transition: box-shadow 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  @include sm {
-    flex-direction: column;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
   }
 
   .imgContainer {
-    flex: 2;
-    height: 200px;
+    width: 100%;
+    height: 180px;
+    background-color: #f0f0f0;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 10px;
     }
   }
 
   .textContainer {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
+    padding: 15px;
 
     .title {
-      font-size: 22px;
+      font-size: 1.5rem;
       font-weight: bold;
-      color: #444;
+      color: #333;
+      margin-bottom: 10px;
 
       a {
         text-decoration: none;
         color: inherit;
 
         &:hover {
-          color: black;
+          color: #0073e6;
         }
       }
     }
 
     .summary {
-      font-size: 16px;
-      color: #555;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 3; 
-      -webkit-box-orient: vertical;
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 10px;
     }
 
     .date {
-      font-size: 14px;
-      color: #888;
+      font-size: 0.9rem;
+      color: #999;
+      margin-bottom: 15px;
     }
 
     .actions {
+      text-align: right;
+
       .read-more {
+        font-size: 0.9rem;
+        color: #0073e6;
         text-decoration: none;
-        color: $primary-color;
         font-weight: bold;
 
         &:hover {

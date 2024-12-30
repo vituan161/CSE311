@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./newsPage.scss";
-import NewsCard from "../../components/News/News";
+import News from "../../components/News/News";
 import axios from "axios";
 
 function NewsPage() {
@@ -10,7 +10,8 @@ function NewsPage() {
     const fetchNews = async () => {
       try {
         const response = await axios.get("https://localhost:7215/api/News");
-        setNewsList(response.data);
+        const validNews = response.data.filter((news) => news && news.id);
+        setNewsList(validNews);
       } catch (error) {
         console.error("Failed to fetch news:", error);
       }
@@ -18,6 +19,8 @@ function NewsPage() {
 
     fetchNews();
   }, []);
+
+  console.log("News List:", newsList);
 
   return (
     <div className="newsPage">
@@ -27,7 +30,7 @@ function NewsPage() {
       </div>
       <div className="newsList">
         {newsList.map((news) => (
-          <NewsCard key={news.id} news={news} />
+          <News key={news.id} news={news} />
         ))}
       </div>
     </div>
