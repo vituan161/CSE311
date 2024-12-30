@@ -66,7 +66,6 @@ function NewPostForm({ className, onClose }) {
     formdata.append("address", address);
     formdata.append("Link", "none");
     formdata.append("description", JSON.stringify([description]));
-    formdata.append("design", designArray);
     formdata.append("legality", legality);
     formdata.append("type", type);
     formdata.append("dateCreated", current);
@@ -82,6 +81,10 @@ function NewPostForm({ className, onClose }) {
     images.forEach((image, index) => {
       formdata.append(`Images`, image);
     });
+    designArray.forEach((item, index) => {
+      formdata.append(`Design`, item);
+    });
+
     console.log(formdata);
     try {
       const response = await axios.post(

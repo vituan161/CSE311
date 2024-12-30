@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RealEstateBackEnd.Models
 {
@@ -11,6 +12,8 @@ namespace RealEstateBackEnd.Models
         public string Address { get; set; } = String.Empty;
         public string Link { get; set; } = String.Empty;
         public IList<string> Imageurl { get; set; } = new List<string>();
+        [NotMapped]
+        public IList<IFormFile>? Images { get; set; } = new List<IFormFile>();
         [Display(Name = "Phone number")]
         [RegularExpression("[0-9]{10}")]
         public string Phone { get; set; } = String.Empty;

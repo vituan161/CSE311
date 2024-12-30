@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstateBackEnd.Data;
 using RealEstateBackEnd.Models;
+using RealEstateBackEnd.Services;
 
 namespace RealEstateBackEnd.Controllers
 {
@@ -16,10 +18,12 @@ namespace RealEstateBackEnd.Controllers
     public class CompaniesController : ControllerBase
     {
         private readonly RealEstateBackEndContext _context;
+        private readonly FileServices _fileServices;
 
-        public CompaniesController(RealEstateBackEndContext context)
+        public CompaniesController(RealEstateBackEndContext context, FileServices fileServices)
         {
             _context = context;
+            _fileServices = fileServices;
         }
 
         // GET: api/Companies
@@ -77,8 +81,22 @@ namespace RealEstateBackEnd.Controllers
         // POST: api/Companies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost, Authorize]
-        public async Task<ActionResult<Company>> PostCompany(Company company)
+        public async Task<ActionResult<Company>> PostCompany([FromForm] Company company)
         {
+            var images = company.Images;
+            string[] allowedFileExtension = { ".jpg", ".jpeg", ".png" };
+            IList<string> imageUrls = new List<string>();
+            if (images != null && images.Count > 0)
+            {
+                foreach (var image in images)
+                {
+                    // Save each image to the file system and store the URL in the ImageURL property
+                    var imageUrl = await _fileServices.SaveFile(image, allowedFileExtension);
+                    imageUrls.Add(imageUrl.ToString());
+                }
+            }
+            company.Imageurl = imageUrls;
+
             _context.Company.Add(company);
             await _context.SaveChangesAsync();
 
