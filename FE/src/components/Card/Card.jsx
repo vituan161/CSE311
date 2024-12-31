@@ -20,19 +20,25 @@ function Card({ item, key, isUpdate }) {
   return (
     <div className="card" onClick={activeUpdateForm}>
       <Link to={`/${item.id}`} className="imgContainer">
-        <img src={`https://localhost:7215/Resources/${item.imageurl[0]}`} alt="" />
+        <img
+          src={`https://localhost:7215/Resources/${item.imageurl[0]}`}
+          alt=""
+        />
       </Link>
       <div className="textContainer">
         <h2 className="title">
           <Link to={`/${item.id}`}>{item.name}</Link>
         </h2>
+        <p>{item.id}</p>
         {/* <p className="isUpdateStatus">Update Mode: {isUpdate ? "ON" : "OFF"}</p> */}
         <p className="address">
           {" "}
           <img src="./pin.png" alt="" />
           <span>{item.address}</span>
         </p>
-        <p className="price">{item.prices[0].priceValue}$</p>
+        <p className="price">
+          {item.prices[item.prices.length - 1].priceValue}$
+        </p>
         <div className="bottom">
           <div className="features">
             <div className="feature">

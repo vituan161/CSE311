@@ -14,11 +14,36 @@
     border-radius: 5px;
     padding: 0 20px;
   }
+  .card-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .btn-group {
+    display: flex;
+    gap: 10px;
+    .delete-btn {
+      width: 100px;
+      background-color: red;
+      color: white;
+      font-weight: 500;
+      font-size: 18px;
+      &:hover {
+        background-color: rgb(175, 1, 1);
+      }
+    }
+    .toggle-each-btn {
+      width: 100px;
+    }
+  }
+
   .updateOff {
     background-color: red;
     color: white;
+    font-weight: 500;
   }
   .updateOn {
     background-color: greenyellow;
+    font-weight: 500;
   }
 }

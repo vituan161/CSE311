@@ -8,8 +8,10 @@ import { useSelector } from "react-redux";
 function UpdateRealEstate({ className, onClose, item }) {
   const designArray = item.design;
   const [name, setName] = useState(item.name);
-  const [description, setDescription] = useState(item.description[0]);
-  const [price, setPrice] = useState(item.prices[0].priceValue);
+  const [description, setDescription] = useState(item.description);
+  const [price, setPrice] = useState(
+    item.prices[item.prices.length - 1].priceValue
+  );
   const [address, setAddress] = useState(item.address);
   const [type, setType] = useState(item.type);
   const [choice, setChoice] = useState(item.choice);
@@ -95,7 +97,6 @@ function UpdateRealEstate({ className, onClose, item }) {
     realEstate.design.forEach((item, index) => {
       formdata.append(`Design`, item);
     });
-
     console.log(formdata);
     try {
       const response = await axios.put(

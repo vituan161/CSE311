@@ -9,7 +9,7 @@ function MyList() {
   const [listData, setListData] = useState([]);
   const [isOn, setIsOn] = useState(false);
   const token = useSelector((state) => state.token);
-  const getCompany = async () => {
+  const getMyRealEstate = async () => {
     try {
       const response = await axios.get(
         "https://localhost:7215/api/RealEstates/MyRealEstate/",
@@ -25,8 +25,8 @@ function MyList() {
     }
   };
   useEffect(() => {
-    getCompany();
-  }, [listData]);
+    getMyRealEstate();
+  }, []);
   // if (
   //   listData.length > 0 &&
   //   listData[0].prices &&
@@ -57,6 +57,22 @@ function MyList() {
     }));
   };
 
+  const deleteRealEstate = async (itemID) => {
+    const sure = confirm(
+      `Are you sure you want to delete the Real Estate with ID: ${itemID} ?`
+    );
+    if (sure)
+      try {
+        await axios.delete(`https://localhost:7215/api/RealEstates/${itemID}`, {
+          headers: {
+            Authorization: `Bearer ${token.value}`,
+          },
+        });
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
+  };
+
   return (
     <div className={"list"}>
       <button
@@ -65,21 +81,32 @@ function MyList() {
           Object.values(updateModes).some((v) => v) ? "updateOn" : "updateOff"
         }
       >
-        Update Mode {Object.values(updateModes).some((v) => v) ? "ON" : "OFF"}
+        Update Mode is{" "}
+        {Object.values(updateModes).some((v) => v) ? "ON" : "OFF"}
       </button>
       {listData.map((item) => (
-        console.log(item),
-        <div key={item.id}>
+        <div key={item.id} className="card-group">
           <Card
             key={item.id}
             item={item}
             isUpdate={updateModes[item.id] || false}
           />
-          <button onClick={() => toggleCardUpdateMode(item.id)}>
-            {updateModes[item.id]
-              ? "Turn OFF Update Mode"
-              : "Turn ON Update Mode"}
-          </button>
+          <div className="btn-group">
+            <button
+              onClick={() => toggleCardUpdateMode(item.id)}
+              className={`toggle-each-btn ${
+                updateModes[item.id] ? "updateOn" : "updateOff"
+              }`}
+            >
+              {updateModes[item.id] ? "On" : "Off"}
+            </button>
+            <button
+              className="delete-btn"
+              onClick={() => deleteRealEstate(item.id)}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       ))}
     </div>

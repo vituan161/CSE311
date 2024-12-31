@@ -79,7 +79,7 @@
       border-radius: 0.25rem;
       cursor: pointer;
       transition: background-color 0.15s ease-in-out;
-
+      margin: 0 10px;
       &.delete-button {
         color: #fff;
         background-color: #dc3545;
@@ -88,6 +88,16 @@
         &:hover {
           background-color: #c82333;
           border-color: #bd2130;
+        }
+      }
+      &.edit-button {
+        color: #fff;
+        background-color: #07db78;
+        border-color: #07db78;
+
+        &:hover {
+          background-color: #22c22f;
+          border-color: #22c22f;
         }
       }
     }

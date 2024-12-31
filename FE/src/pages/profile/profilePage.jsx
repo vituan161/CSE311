@@ -58,7 +58,7 @@ function ProfilePage() {
 
   const handleMouseEnter = () => setButtonText("Go to Admin Page");
   const handleMouseLeave = () => setButtonText("Admin");
-
+  //console.log(profile);
   return (
     <div className="profilePage">
       <div className={`overlay ${openForm ? "active" : "non-active"}`}>
@@ -83,7 +83,6 @@ function ProfilePage() {
           <div className={`info ${account.role === 0 ? "admin" : "user"}`}>
             <div className="infowrap">
               <span>
-                Avatar:
                 <img
                   src={`https://localhost:7215/Resources/${profile.ImageURL[0]}`}
                   alt=""
@@ -100,6 +99,7 @@ function ProfilePage() {
               <span>
                 Email: <b>{account.email}</b>
               </span>
+
               {account.role === 0 && (
                 <button
                   onClick={goToAdminPage}
