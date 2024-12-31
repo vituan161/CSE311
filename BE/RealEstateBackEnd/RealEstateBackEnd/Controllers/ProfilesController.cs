@@ -38,7 +38,7 @@ namespace RealEstateBackEnd.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Profile>> GetProfile(int id)
         {
-            var profile = await _context.Profile.FindAsync(id);
+            var profile = await _context.Profile.Include(p => p.AppUser).FirstOrDefaultAsync(p => p.Id == id);
 
             if (profile == null)
             {
@@ -57,7 +57,7 @@ namespace RealEstateBackEnd.Controllers
                 return Unauthorized();
             }
             int id = int.Parse(usesId);
-            var profile = await _context.Profile.Include(p => p.AppUser).ThenInclude(u => u.Follow).FirstOrDefaultAsync(p => p.AppUserId == id);
+            var profile = await _context.Profile.Include(p => p.AppUser).ThenInclude(u => u.Follow).ThenInclude(f => f.Following).FirstOrDefaultAsync(p => p.AppUserId == id);
             if(profile == null)
             {
                 return NotFound();

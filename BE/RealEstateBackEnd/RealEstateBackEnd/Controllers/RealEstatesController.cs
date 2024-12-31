@@ -54,7 +54,7 @@ namespace RealEstateBackEnd.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<RealEstate>> GetRealEstate(int id)
         {
-            var realEstate = await _context.RealEstate.Include(r => r.Prices).FirstOrDefaultAsync(r => r.Id == id);
+            var realEstate = await _context.RealEstate.Include(r => r.Prices).Include(r => r.Seller).ThenInclude(s => s.User).ThenInclude(u => u.Profile).FirstOrDefaultAsync(r => r.Id == id);
 
             if (realEstate == null)
             {
@@ -168,7 +168,7 @@ namespace RealEstateBackEnd.Controllers
         // PUT: api/RealEstates/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}"),Authorize]
-        public async Task<IActionResult> PutRealEstate(int id, [FromForm] RealEstate UpdatedrealEstate)
+        public async Task<IActionResult> PutRealEstate(int id,[FromForm] RealEstate UpdatedrealEstate)
         {
             if (id != UpdatedrealEstate.Id)
             {
@@ -186,7 +186,6 @@ namespace RealEstateBackEnd.Controllers
             currentRealEstate.Area = UpdatedrealEstate.Area;
             currentRealEstate.Address = UpdatedrealEstate.Address;
             currentRealEstate.Link = UpdatedrealEstate.Link;
-            currentRealEstate.Imageurl = UpdatedrealEstate.Imageurl;
             currentRealEstate.Description = UpdatedrealEstate.Description;
             currentRealEstate.Design = UpdatedrealEstate.Design;
             currentRealEstate.Legality = UpdatedrealEstate.Legality;
@@ -206,29 +205,31 @@ namespace RealEstateBackEnd.Controllers
                 }
             }
 
-            // update image
-            var UpdatedImages = UpdatedrealEstate.Images;
-            if (UpdatedImages != null && UpdatedImages.Count > 0)
+            if (UpdatedrealEstate.Images.Count > 0)
             {
-                foreach(var currentImage in currentRealEstate.Imageurl)
+                // update image
+                var UpdatedImages = UpdatedrealEstate.Images;
+                if (UpdatedImages != null && UpdatedImages.Count > 0)
                 {
-                    _fileServices.DeleteFile(currentImage);
+                    foreach (var currentImage in currentRealEstate.Imageurl)
+                    {
+                        _fileServices.DeleteFile(currentImage);
+                    }
                 }
-            }
 
-            IList<string> imageUrls = new List<string>();
-            string[] allowedFileExtension = { ".jpg", ".jpeg", ".png" };
-            if (UpdatedImages != null && UpdatedImages.Count > 0)
-            {
-                foreach (var UpdatedImage in UpdatedImages)
+                IList<string> imageUrls = new List<string>();
+                string[] allowedFileExtension = { ".jpg", ".jpeg", ".png" };
+                if (UpdatedImages != null && UpdatedImages.Count > 0)
                 {
-                    var imageUrl = await _fileServices.SaveFile(UpdatedImage, allowedFileExtension);
-                    imageUrls.Add(imageUrl.ToString());
+                    foreach (var UpdatedImage in UpdatedImages)
+                    {
+                        var imageUrl = await _fileServices.SaveFile(UpdatedImage, allowedFileExtension);
+                        imageUrls.Add(imageUrl.ToString());
+                    }
                 }
+
+                currentRealEstate.Imageurl = imageUrls;
             }
-
-            currentRealEstate.Imageurl = imageUrls;
-
             try
             {
                 await _context.SaveChangesAsync();

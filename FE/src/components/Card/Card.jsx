@@ -4,7 +4,7 @@ import { useState } from "react";
 import UpdateRealEstate from "../UpdateRealEstate/UpdateRealEstate";
 import { Link } from "react-router-dom";
 
-function Card({ item, key, isUpdate }) {
+function Card({ item, isUpdate }) {
   const [openUpdate, setOpenUpdate] = useState(false);
   const activeUpdateForm = () => {
     if (isUpdate) {

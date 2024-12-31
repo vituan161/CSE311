@@ -19,6 +19,7 @@ function UpdateRealEstate({ className, onClose, item }) {
   const [area, setArea] = useState(parseInt(item.area, 10));
   const [legality, setLegality] = useState(item.legality);
   const [status, setStatus] = useState(item.status);
+  const [images, setImages] = useState([]);
   const [location, setLocation] = useState(
     item.location ? { lat: item.location[0], lng: item.location[1] } : null
   );
@@ -26,6 +27,7 @@ function UpdateRealEstate({ className, onClose, item }) {
   const [bedroom, setBedroom] = useState(parseInt(item.design[1], 10));
   const [detail, setDetail] = useState(designArray.slice(2));
   const [imgList, setImgList] = useState(item.imageurl);
+  const [uploadComponents, setUploadComponents] = useState([]);
 
   const date = new Date();
   const current = date.toISOString().split("T")[0];
@@ -52,7 +54,7 @@ function UpdateRealEstate({ className, onClose, item }) {
       design: [
         bedroom + " phòng ngủ",
         bathroom + " phòng tắm",
-        ...detail.split(",").map((item) => item.trim()),
+        ...detail.map((item) => item.trim()),
       ],
       legality: legality,
       type: type,
@@ -68,25 +70,31 @@ function UpdateRealEstate({ className, onClose, item }) {
       choice: choice,
       location: [location.lat, location.lng],
     };
-    console.log(JSON.stringify(description));
+    console.log(realEstate);
+    console.log(detail);
     const formdata = new FormData();
-    formdata.append("name", name);
-    formdata.append("area", area);
-    formdata.append("address", address);
+    formdata.append("Name", name);
+    formdata.append("Area", area);
+    formdata.append("Address", address);
     formdata.append("Link", "none");
-    formdata.append("description", JSON.stringify(description));
-    formdata.append("legality", legality);
-    formdata.append("type", type);
-    formdata.append("dateCreated", current);
-    formdata.append("dateExprired", formattedExpiryDate);
-    formdata.append("status", status);
-    formdata.append("Id", item.id);
+    formdata.append("Description", description);
+    formdata.append("Legality", legality);
+    formdata.append("Type", type);
+    formdata.append("DateCreated", current);
+    formdata.append("DateExprired", formattedExpiryDate);
+    formdata.append("Status", status);
+
     formdata.append("Prices[0][priceValue]", price);
     formdata.append("Prices[0][dateCreated]", current);
     formdata.append("choice", choice);
-    formdata.append("location[]", location.lat);
-    formdata.append("location[]", location.lng);
-    designArray.forEach((item, index) => {
+    formdata.append("Location[]", location.lat);
+    formdata.append("Location[]", location.lng);
+    formdata.append("Id", item.id);
+    images.forEach((image, index) => {
+      formdata.append(`Images`, image);
+    });
+
+    realEstate.design.forEach((item, index) => {
       formdata.append(`Design`, item);
     });
     console.log(formdata);
@@ -105,6 +113,7 @@ function UpdateRealEstate({ className, onClose, item }) {
       if (response.status === 204) {
         console.log(response);
         window.alert("Update Successful!");
+        onClose();
       }
     } catch (error) {
       window.alert("Update failed!", error);
@@ -127,32 +136,60 @@ function UpdateRealEstate({ className, onClose, item }) {
     }
   };
 
+  // const addInput = () => {
+  //   const inputField = document.querySelector(".inputUpdateField");
+
+  //   const group = document.createElement("div");
+  //   group.classList.add("group");
+  //   inputField.appendChild(group);
+  //   const imgShow = document.createElement("img");
+  //   imgShow.classList.add("imgShow");
+  //   group.appendChild(imgShow);
+
+  //   const input = document.createElement("input");
+  //   input.setAttribute("type", "text");
+  //   input.setAttribute("name", " ");
+  //   input.setAttribute("placeholder", "Enter Image URL");
+  //   input.addEventListener("input", () => {
+  //     imgShow.src = input.value;
+  //   });
+  //   group.appendChild(input);
+
+  //   const deleteButton = document.createElement("button");
+  //   deleteButton.textContent = "Delete";
+  //   deleteButton.classList.add("delete");
+  //   deleteButton.addEventListener("click", () => {
+  //     group.remove();
+  //   });
+  //   group.appendChild(deleteButton);
+  // };
+
   const addInput = () => {
-    const inputField = document.querySelector(".inputUpdateField");
+    setUploadComponents([
+      ...uploadComponents,
+      {
+        id: uploadComponents.length,
+        component: (
+          <UploadImage
+            key={uploadComponents.length}
+            onUpload={(files) => handleUpload(files, uploadComponents.length)}
+          />
+        ),
+      },
+    ]);
+  };
 
-    const group = document.createElement("div");
-    group.classList.add("group");
-    inputField.appendChild(group);
-    const imgShow = document.createElement("img");
-    imgShow.classList.add("imgShow");
-    group.appendChild(imgShow);
+  const handleUpload = (files,id) => {
+    setImages((prevImages) => {
+      const newImages = [...prevImages];
+      newImages[id] = files;
+      return newImages.flat();
+    })
+  };
 
-    const input = document.createElement("input");
-    input.setAttribute("type", "text");
-    input.setAttribute("name", " ");
-    input.setAttribute("placeholder", "Enter Image URL");
-    input.addEventListener("input", () => {
-      imgShow.src = input.value;
-    });
-    group.appendChild(input);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.classList.add("delete");
-    deleteButton.addEventListener("click", () => {
-      group.remove();
-    });
-    group.appendChild(deleteButton);
+  const removeInput = (id) => {
+    setUploadComponents(uploadComponents.filter((item) => item.id !== id));
+    setImages((prevImages) => prevImages.filter((_, index) => index !== id));
   };
 
   const getAllImgURL = () => {
@@ -275,7 +312,22 @@ function UpdateRealEstate({ className, onClose, item }) {
                       Add new Image URL
                     </button>
 
-                    <div className="inputUpdateField"></div>
+                    <div className="inputUpdateField">
+                    {uploadComponents.map((item) => (
+                      <div className="input-group" key={item.id}>
+                        <div className="upload-component">
+                          {item.component}
+                          <button
+                            className="delete"
+                            type="button"
+                            onClick={() => removeInput(item.id)}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    </div>
 
                     {/* <button onClick={getAllImgURL}>OK</button> */}
                   </div>

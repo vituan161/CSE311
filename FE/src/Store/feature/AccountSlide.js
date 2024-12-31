@@ -7,6 +7,7 @@ export const accountSlice = createSlice({
     role: 0,
     userName: "",
     email: "",
+    followid: 0,
   },
   reducers: {
     setRole: (state, action) => {
@@ -21,6 +22,9 @@ export const accountSlice = createSlice({
     setIsOfficial: (state, action) => {
       state.isOfficial = action.payload;
     },
+    setFollowId: (state, action) => {
+      state.followid = action.payload;
+    },
     resetAccount: (state) => {
       return {
         isOfficial: false,
@@ -32,6 +36,12 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { resetAccount, setRole, setUserName, setEmail, setIsOfficial } =
-  accountSlice.actions;
+export const {
+  resetAccount,
+  setRole,
+  setUserName,
+  setEmail,
+  setIsOfficial,
+  setFollowId,
+} = accountSlice.actions;
 export default accountSlice.reducer;

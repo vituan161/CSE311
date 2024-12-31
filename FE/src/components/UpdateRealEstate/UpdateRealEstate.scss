@@ -21,7 +21,7 @@
   position: fixed;
   top: 25%;
   left: 50%;
-  transform: translate(-50%, -20%);
+  transform: translate(-50%, -30%);
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
   overflow-y: scroll;
   &.active {
@@ -35,7 +35,6 @@
     flex: 85%;
     .information-section {
       height: 100%;
-
       padding: 15px;
       form {
         display: flex;

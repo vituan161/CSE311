@@ -1,7 +1,7 @@
 import { getProfile, putProfile } from "./api";
 import { setToken, resetToken } from "../Store/feature/TokenSlide";
 import { resetProfile, setFirstName, setLastName, setAddress, setDoB, setPhone, setRating, setIdentiticationNumber, setDescription, setImageURL } from "../Store/feature/ProfileSlide";
-import { resetAccount, setRole, setUserName, setEmail, setIsOfficial } from "../Store/feature/AccountSlide";
+import { resetAccount, setRole, setUserName, setEmail, setIsOfficial, setFollowId } from "../Store/feature/AccountSlide";
 const handleToken = async (token, dispatch) => {
     dispatch(setToken(token));
 };
@@ -18,7 +18,8 @@ const handleGetProfile = async (token, dispatch) => {
         dispatch(setRating(response.rating));
         dispatch(setIdentiticationNumber(response.identiticationNumber));
         dispatch(setDescription(response.description));
-        handleGetAccount(response.appUser, dispatch);
+        if (response.appUser > 0)
+            handleGetAccount(response.appUser, dispatch);
     } catch (error) {
         window.alert("Get profile failed");
     }
@@ -26,10 +27,12 @@ const handleGetProfile = async (token, dispatch) => {
 
 const handleGetAccount = async (account, dispatch) => {
     try {
+        console.log(account);
         dispatch(setRole(account.role));
         dispatch(setUserName(account.userName));
         dispatch(setEmail(account.email));
         dispatch(setIsOfficial(account.isOfficial));
+        dispatch(setFollowId(account.follow.id));
     } catch (error) {
         window.alert("Get account failed");
     }
@@ -37,9 +40,6 @@ const handleGetAccount = async (account, dispatch) => {
 
 const handlePutProfile = async (token, dispatch, profile) => {
     try {
-        console.log("post profile");
-        console.log(profile);
-        console.log(token);
         const response = await putProfile(token, profile);
         handleGetProfile(token, dispatch);
     } catch (error) {

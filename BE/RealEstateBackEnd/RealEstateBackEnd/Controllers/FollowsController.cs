@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,34 +24,40 @@ namespace RealEstateBackEnd.Controllers
         }
 
         // GET: api/Follows
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Follow>>> GetFollow()
-        {
-            return await _context.Follow.ToListAsync();
-        }
-
-        // GET: api/Follows/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Follow>> GetFollow(int id)
         {
-            var follow = await _context.Follow.FindAsync(id);
+            if (id == 0 || id == null)
+            {
+                return NotFound();
+            }
+            return await _context.Follow.Include(f => f.Following).FirstOrDefaultAsync(f => f.Id == id);
+        }
 
+        // PUT: api/Follows/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}"),Authorize]
+        public async Task<IActionResult> PutFollow(int id, [FromQuery] int Profileid)
+        {
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.Id == Profileid);
+            if (profile == null)
+            {
+                return NotFound();
+            }
+            var follow = await _context.Follow.Include(f => f.Following).FirstOrDefaultAsync(f => f.Id == id);
             if (follow == null)
             {
                 return NotFound();
             }
 
-            return follow;
-        }
-
-        // PUT: api/Follows/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFollow(int id, Follow follow)
-        {
-            if (id != follow.Id)
+            if(!follow.Following.Any(p => p.Id == profile.Id))
             {
-                return BadRequest();
+                follow.Following.Add(profile);
+            }
+            else
+            {
+                return Ok("Already following this profile");
             }
 
             _context.Entry(follow).State = EntityState.Modified;
@@ -73,28 +81,30 @@ namespace RealEstateBackEnd.Controllers
             return NoContent();
         }
 
-        // POST: api/Follows
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Follow>> PostFollow(Follow follow)
-        {
-            _context.Follow.Add(follow);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFollow", new { id = follow.Id }, follow);
-        }
-
         // DELETE: api/Follows/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFollow(int id)
+        [HttpDelete("{id}"), Authorize]
+        public async Task<IActionResult> DeleteFollow(int id, int ProfileId)
         {
-            var follow = await _context.Follow.FindAsync(id);
+            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.Id == ProfileId);
+            if (profile == null)
+            {
+                return Ok("there no such profile");
+            }
+            
+            var follow = await _context.Follow.Include(f => f.Following).FirstOrDefaultAsync(f => f.Id == id);
             if (follow == null)
             {
                 return NotFound();
             }
+            if (follow.Following.Any(p => p.Id == profile.Id))
+            {
+                follow.Following.Remove(profile);
+            }
+            else
+            {
+                return Ok("this profile is not following");
+            }
 
-            _context.Follow.Remove(follow);
             await _context.SaveChangesAsync();
 
             return NoContent();

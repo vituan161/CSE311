@@ -19,7 +19,6 @@ function MyList() {
           },
         }
       );
-      console.log(response.data);
       setListData(response.data);
     } catch (error) {
       console.error("Get real estate failed:", error);

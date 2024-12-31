@@ -11,6 +11,7 @@
     flex: 3;
     height: 100%;
     overflow-y: scroll;
+    scrollbar-width: thin;
     margin-bottom: 50px;
     @include sm {
       flex: none;
@@ -67,6 +68,7 @@
             border-radius: 10px;
             background-color: $light-sky-blue;
             font-weight: 600;
+            cursor: pointer;
             @include sm {
               margin-top: 20px;
               padding: 5px;
@@ -92,6 +94,7 @@
     background-color: $light-sky-blue;
     height: 100%;
     overflow-y: scroll;
+    scrollbar-width: thin;
     padding: 10px 0;
     @include sm {
       flex: none;
