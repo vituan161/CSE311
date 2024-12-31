@@ -54,7 +54,7 @@ namespace RealEstateBackEnd.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<RealEstate>> GetRealEstate(int id)
         {
-            var realEstate = await _context.RealEstate.Include(r => r.Prices).FirstOrDefaultAsync(r => r.Id == id);
+            var realEstate = await _context.RealEstate.Include(r => r.Prices).Include(r => r.Seller).ThenInclude(s => s.User).ThenInclude(u => u.Profile).FirstOrDefaultAsync(r => r.Id == id);
 
             if (realEstate == null)
             {

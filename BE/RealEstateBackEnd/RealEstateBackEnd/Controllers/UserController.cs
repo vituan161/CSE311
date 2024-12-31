@@ -63,10 +63,21 @@ namespace RealEstateAPI.Controllers
                 return BadRequest("User already exists");
             }
             var result = await _userManager.CreateAsync(user, user.PasswordHash);
+            
             if (result.Succeeded)
             {
                 getuser = await _context.AppUser.FirstOrDefaultAsync(u => u.Email == user.Email);
                 getuser.ProfileId = getuser.Profile.Id;
+                var follow = new Follow
+                {
+                    AppUserId = getuser.Id,
+                    AppUser = getuser,
+                    Following = new List<Profile>(),
+                };
+                getuser.FollowId = follow.Id;
+                getuser.Follow = follow;
+                _context.Follow.Add(follow);
+                _context.Entry(getuser).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return Ok();
             }

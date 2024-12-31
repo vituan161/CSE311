@@ -68,6 +68,7 @@ function MyList() {
         Update Mode {Object.values(updateModes).some((v) => v) ? "ON" : "OFF"}
       </button>
       {listData.map((item) => (
+        console.log(item),
         <div key={item.id}>
           <Card
             key={item.id}

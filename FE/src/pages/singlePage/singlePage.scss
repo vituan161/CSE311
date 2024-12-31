@@ -68,6 +68,7 @@
             border-radius: 10px;
             background-color: $light-sky-blue;
             font-weight: 600;
+            cursor: pointer;
             @include sm {
               margin-top: 20px;
               padding: 5px;

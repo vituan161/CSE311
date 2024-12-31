@@ -15,9 +15,24 @@ function ProfilePage() {
   const token = useSelector((state) => state.token);
   const profile = useSelector((state) => state.profile);
   const account = useSelector((state) => state.account);
-  console.log(account.role);
+  const [follow, setFollowing] = useState(account.follow);
+  const followid = useSelector((state) => state.account.followid);
   const navigateTo = useNavigate();
+  console.log(follow);
+  const getFollow = async (id) => {
+    try {
+      const response = await axios.get(
+        `https://localhost:7215/api/Follows/${id}`
+      );
+      setFollowing(response.data);
+    } catch (error) {
+      console.error("Get follow failed:", error);
+    }
+  };
 
+  useEffect(() => {
+    getFollow(followid);
+  }, [followid]);
   const activeForm = () => {
     setOpenForm(true);
   };
@@ -34,6 +49,10 @@ function ProfilePage() {
 
   const goToAdminPage = () => {
     navigateTo("/admin");
+  };
+
+  const goToOtherProfile = (id) => {
+    navigateTo("/otherProfile", { state: id });
   };
   const [buttonText, setButtonText] = useState("Admin");
 
@@ -71,7 +90,12 @@ function ProfilePage() {
                 />
               </span>
               <span>
-                User Name: <b>{profile.LastName && profile.FirstName ? `${profile.LastName} ${profile.FirstName}` : 'N/A'}</b>
+                User Name:{" "}
+                <b>
+                  {profile.LastName && profile.FirstName
+                    ? `${profile.LastName} ${profile.FirstName}`
+                    : "N/A"}
+                </b>
               </span>
               <span>
                 Email: <b>{account.email}</b>
@@ -101,7 +125,31 @@ function ProfilePage() {
           <div className="title">
             <h1>Saved List</h1>
           </div>
-          <List />
+          <div className="userwrapper">
+            {follow != undefined ? (
+              follow.following.map((element, index) => (
+                // console.log(element);
+                <div
+                  className="user"
+                  onClick={() => goToOtherProfile(element.id)}
+                >
+                  {element.imageURL && element.imageURL[0] ? (
+                    <img
+                      src={`https://localhost:7215/Resources/${element.imageURL[0]}`}
+                      alt=""
+                    />
+                  ) : (
+                    "N/A"
+                  )}
+                  <span>User Name: {element.lastName + " " + element.firstName}</span>
+                  <span>PhoneNumber: {element.phoneNumber}</span>
+                  <spand>{element.description}</spand>
+                </div>
+              ))
+            ) : (
+              <div>Empty</div>
+            )}
+          </div>
         </div>
       </div>
       <div className="chat">

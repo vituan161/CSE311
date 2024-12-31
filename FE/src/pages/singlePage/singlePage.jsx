@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./singlePage.scss";
 import Slider from "../../components/Slider/Slider";
 import Map from "../../components/Map/Map";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 function SinglePage() {
   const { id } = useParams();
@@ -13,6 +14,9 @@ function SinglePage() {
   const [price, setPrice] = useState();
   const [postForMap, setPostForMap] = useState([]);
   const [error, setError] = useState(false);
+  const [profile, setProfile] = useState({});
+  const token = useSelector((state) => state.token);
+  const navigateTo = useNavigate();
   // useEffect(() => {
   //   const foundPost = singlePostDataList.find(
   //     (item) => item.id.toString() === id
@@ -26,22 +30,28 @@ function SinglePage() {
       const response = await axios.get(
         "https://localhost:7215/api/RealEstates/" + id
       );
-      // console.log(response.data);
+      console.log(response.data);
       setPost(response.data);
       setImages(response.data.imageurl);
       setDesign(response.data.design);
       setPrice(response.data.prices[0].priceValue);
       setPostForMap([response.data]);
+      setProfile(response.data.seller.user.profile);
     } catch (error) {
       console.error("Get post failed:", error);
 
       setError(true);
     }
   };
+
   useEffect(() => {
     getPost();
   }, []);
-  console.log(design);
+
+  const goToOtherProfile = (id) => {
+    navigateTo("/otherProfile", { state: id });
+  };
+
   if (error) {
     return (
       <div className="not-found">
@@ -70,9 +80,19 @@ function SinglePage() {
                 </div>
                 <div className="price">{price}$</div>
               </div>
-              <div className="user">
-                <img src="" alt="" />
-                <span>{}</span>
+              <div
+                className="user"
+                onClick={() => goToOtherProfile(profile.id)}
+              >
+                {profile.imageURL && profile.imageURL[0] ? (
+                  <img
+                    src={`https://localhost:7215/Resources/${profile.imageURL[0]}`}
+                    alt=""
+                  />
+                ) : (
+                  "N/A"
+                )}
+                <span>{profile.lastName + " " + profile.firstName}</span>
               </div>
             </div>
             <div className="bottom">

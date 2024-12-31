@@ -29,10 +29,10 @@ namespace RealEstateBackEnd.Controllers
         }
 
         // GET: api/Sellers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Seller>> GetSeller(int id)
+        [HttpGet("UserId/{id}")]
+        public async Task<ActionResult<Seller>> GetSellerByUserId(int id)
         {
-            var seller = await _context.Seller.FindAsync(id);
+            var seller = await _context.Seller.Include(s => s.User).Include(s => s.RealEstates).ThenInclude(r => r.Prices).FirstOrDefaultAsync(s => s.UserId == id);
 
             if (seller == null)
             {
