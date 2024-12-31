@@ -10,8 +10,13 @@ function Header() {
   const user = localStorage.getItem("user");
   const location = useLocation();
   const isProfilePage = location.pathname.includes("/profile");
-  const classNameLeft = `left ${isProfilePage ? "profile-page-left" : ""}`;
-  const classNameRight = `right ${isProfilePage ? "profile-page-right" : ""}`;
+  const isAdminPage = location.pathname.includes("/admin");
+  const classNameLeft = `left ${
+    isProfilePage || isAdminPage ? "profile-page-left" : ""
+  }`;
+  const classNameRight = `right ${
+    isProfilePage || isAdminPage ? "profile-page-right" : ""
+  }`;
   const profile = useSelector((state) => state.profile);
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
@@ -31,7 +36,10 @@ function Header() {
       <div className={classNameRight}>
         {user ? (
           <div className="user">
-            <img src={`https://localhost:7215/Resources/`+profile.ImageURL[0]} alt="" />
+            <img
+              src={`https://localhost:7215/Resources/` + profile.ImageURL[0]}
+              alt=""
+            />
             <span>{profile.LastName + " " + profile.FirstName} </span>
             <Link to={"/profile"} className="profile-btn">
               Profile

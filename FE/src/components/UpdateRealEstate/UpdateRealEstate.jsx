@@ -9,7 +9,9 @@ function UpdateRealEstate({ className, onClose, item }) {
   const designArray = item.design;
   const [name, setName] = useState(item.name);
   const [description, setDescription] = useState(item.description);
-  const [price, setPrice] = useState(item.prices[0].priceValue);
+  const [price, setPrice] = useState(
+    item.prices[item.prices.length - 1].priceValue
+  );
   const [address, setAddress] = useState(item.address);
   const [type, setType] = useState(item.type);
   const [choice, setChoice] = useState(item.choice);
@@ -66,18 +68,19 @@ function UpdateRealEstate({ className, onClose, item }) {
       choice: choice,
       location: [location.lat, location.lng],
     };
+    console.log(JSON.stringify(description));
     const formdata = new FormData();
     formdata.append("name", name);
     formdata.append("area", area);
     formdata.append("address", address);
     formdata.append("Link", "none");
-    formdata.append("description", JSON.stringify([description]));
+    formdata.append("description", JSON.stringify(description));
     formdata.append("legality", legality);
     formdata.append("type", type);
     formdata.append("dateCreated", current);
     formdata.append("dateExprired", formattedExpiryDate);
     formdata.append("status", status);
-
+    formdata.append("Id", item.id);
     formdata.append("Prices[0][priceValue]", price);
     formdata.append("Prices[0][dateCreated]", current);
     formdata.append("choice", choice);
@@ -86,6 +89,7 @@ function UpdateRealEstate({ className, onClose, item }) {
     designArray.forEach((item, index) => {
       formdata.append(`Design`, item);
     });
+    console.log(formdata);
     try {
       const response = await axios.put(
         ` https://localhost:7215/api/RealEstates/${item.id}`,
@@ -98,7 +102,7 @@ function UpdateRealEstate({ className, onClose, item }) {
         }
       );
       console.log(response.status);
-      if (response.status === 201) {
+      if (response.status === 204) {
         console.log(response);
         window.alert("Update Successful!");
       }

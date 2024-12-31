@@ -2,13 +2,18 @@ import React, { useEffect, useState } from "react";
 import "./adminPage.scss";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import AddCompanyForm from "../../components/AddCompanyForm/AddCompanyForm";
+import EditUserModal from "../../components/EditUserModal/EditUserModal";
 
 function AdminPage() {
   const [users, setUsers] = useState([]);
   const [companies, setCompanies] = useState([]);
+  const [newCompany, setNewCompany] = useState({});
   const [showUserTable, setShowUserTable] = useState(true);
   const [showCompanyTable, setShowCompanyTable] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editUser, setEditUser] = useState();
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const token = useSelector((state) => state.token);
 
@@ -105,32 +110,26 @@ function AdminPage() {
 
     setData(sortedData);
   };
+  const openEditUser = (user) => {
+    setShowEditModal(true);
+    setEditUser(user);
+  };
 
   return (
     <div className="adminPage">
       <h1>Admin Page - Welcome, Admin!</h1>
-      <button onClick={() => setShowModal(true)} className="toggle-modal">
-        Open Modal
-      </button>
-
-      {/* Modal */}
-      {showModal && (
-        <div className="modal-backdrop">
-          <div className="modal">
-            <h2>Modal Title</h2>
-            <p>This is an empty modal.</p>
-            <button onClick={() => setShowModal(false)} className="close-modal">
-              Close
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* User Table */}
       <div className="table-section">
         <button onClick={() => setShowUserTable(!showUserTable)}>
           {showUserTable ? "Hide Users" : "Show Users"}
         </button>
+        {showEditModal && (
+          <EditUserModal
+            onClose={() => setShowEditModal(false)}
+            user={editUser}
+          />
+        )}
         {showUserTable && (
           <div className="userList">
             {users.length > 0 ? (
@@ -177,6 +176,12 @@ function AdminPage() {
                       <td>{user.role === 0 ? "Admin" : "User"}</td>
                       <td>
                         <button
+                          className="action-button edit-button"
+                          onClick={() => openEditUser(user)}
+                        >
+                          Edit
+                        </button>
+                        <button
                           className="action-button delete-button"
                           onClick={() => deleteUser(user.id)}
                         >
@@ -193,7 +198,21 @@ function AdminPage() {
           </div>
         )}
       </div>
-      <button className="add-company-btn">Add Company</button>
+      <button
+        onClick={() => setShowModal(true)}
+        className="add-company-btn toggle-modal"
+      >
+        Add Company
+      </button>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="modal-backdrop">
+          <div className="modal">
+            <AddCompanyForm onClose={() => setShowModal(false)} />
+          </div>
+        </div>
+      )}
       {/* Company Table */}
       <div className="table-section">
         <button onClick={() => setShowCompanyTable(!showCompanyTable)}>
@@ -242,6 +261,9 @@ function AdminPage() {
                       <td>{company.name}</td>
                       <td>{company.address}</td>
                       <td>
+                        <button className="action-button edit-button">
+                          Edit
+                        </button>
                         <button
                           className="action-button delete-button"
                           onClick={() => deleteCompany(company.id)}
