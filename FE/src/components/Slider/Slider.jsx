@@ -48,7 +48,7 @@ function Slider({ images }) {
         />
       </div>
       <div className="smallImage">
-        {images.slice(1).map((image, index) => (
+        {images.map((image, index) => (
           <img
             src={`https://localhost:7215/Resources/${image}`}
             alt=""

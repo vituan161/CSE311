@@ -58,7 +58,7 @@ function SinglePage() {
     <div className="singlePage">
       <div className="details">
         <div className="wrapper">
-          <Slider images={images.slice(1)} />
+          <Slider images={images} />
 
           <div className="info">
             <div className="top">

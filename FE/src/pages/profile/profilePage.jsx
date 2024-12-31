@@ -102,10 +102,10 @@ function ProfilePage() {
             <button onClick={activeNewPost}>Create New Post</button>
           </div>
           <MyList />
-          <div className="title">
+          {/* <div className="title">
             <h1>Saved List</h1>
           </div>
-          <List />
+          <List /> */}
         </div>
       </div>
       <div className="chat">

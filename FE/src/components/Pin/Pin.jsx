@@ -15,7 +15,10 @@ function Pin({ item }) {
     <Marker position={[item.location[0], item.location[1]]} icon={redIcon}>
       <Popup>
         <div className="popupContainer">
-          <img src={item.imageurl[0]} alt="" />
+          <img
+            src={`https://localhost:7215/Resources/${item.imageurl[0]}`}
+            alt=""
+          />
           <div className="textContainer">
             <Link to={`/${item.id}`}>{item.name}</Link>
             <span>Area: {item.area}</span>
