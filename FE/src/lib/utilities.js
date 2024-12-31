@@ -18,8 +18,7 @@ const handleGetProfile = async (token, dispatch) => {
         dispatch(setRating(response.rating));
         dispatch(setIdentiticationNumber(response.identiticationNumber));
         dispatch(setDescription(response.description));
-        if (response.appUser > 0)
-            handleGetAccount(response.appUser, dispatch);
+        handleGetAccount(response.appUser, dispatch);
     } catch (error) {
         window.alert("Get profile failed");
     }
@@ -27,7 +26,6 @@ const handleGetProfile = async (token, dispatch) => {
 
 const handleGetAccount = async (account, dispatch) => {
     try {
-        console.log(account);
         dispatch(setRole(account.role));
         dispatch(setUserName(account.userName));
         dispatch(setEmail(account.email));

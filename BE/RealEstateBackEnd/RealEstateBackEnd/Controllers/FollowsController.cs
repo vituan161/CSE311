@@ -78,14 +78,14 @@ namespace RealEstateBackEnd.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok("follow succesffully");
         }
 
         // DELETE: api/Follows/5
         [HttpDelete("{id}"), Authorize]
-        public async Task<IActionResult> DeleteFollow(int id, int ProfileId)
+        public async Task<IActionResult> DeleteFollow(int id, [FromQuery] int Profileid)
         {
-            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.Id == ProfileId);
+            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.Id == Profileid);
             if (profile == null)
             {
                 return Ok("there no such profile");
@@ -102,12 +102,12 @@ namespace RealEstateBackEnd.Controllers
             }
             else
             {
-                return Ok("this profile is not following");
+                return Ok("not following this profile");
             }
 
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok("unfollow successfully");
         }
 
         private bool FollowExists(int id)

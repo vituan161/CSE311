@@ -15,10 +15,10 @@ function ProfilePage() {
   const token = useSelector((state) => state.token);
   const profile = useSelector((state) => state.profile);
   const account = useSelector((state) => state.account);
-  const [follow, setFollowing] = useState(account.follow);
-  const followid = useSelector((state) => state.account.followid);
+  const [follow, setFollowing] = useState();
+  const followid = account.followid;
   const navigateTo = useNavigate();
-  console.log(follow);
+  
   const getFollow = async (id) => {
     try {
       const response = await axios.get(
@@ -27,6 +27,25 @@ function ProfilePage() {
       setFollowing(response.data);
     } catch (error) {
       console.error("Get follow failed:", error);
+    }
+  };
+
+  const deleteFollow = async (followid,profileid) => {
+    console.log(followid + " " + profileid);
+    try {
+      const response = await axios.delete(
+        `https://localhost:7215/api/Follows/${followid}?Profileid=${profileid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token.value}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      window.alert(response.data);
+    } catch (error) {
+      console.error("Get failed:", error);
+      window.alert("UnFollow failed");
     }
   };
 
@@ -55,7 +74,7 @@ function ProfilePage() {
     navigateTo("/otherProfile", { state: id });
   };
   const [buttonText, setButtonText] = useState("Admin");
-
+  console.log(follow);
   const handleMouseEnter = () => setButtonText("Go to Admin Page");
   const handleMouseLeave = () => setButtonText("Admin");
   //console.log(profile);
@@ -118,7 +137,6 @@ function ProfilePage() {
           </div>
           <div className="title">
             <h1>My List</h1>
-
             <button onClick={activeNewPost}>Create New Post</button>
           </div>
           <MyList />
@@ -131,7 +149,6 @@ function ProfilePage() {
                 // console.log(element);
                 <div
                   className="user"
-                  onClick={() => goToOtherProfile(element.id)}
                 >
                   {element.imageURL && element.imageURL[0] ? (
                     <img
@@ -141,9 +158,11 @@ function ProfilePage() {
                   ) : (
                     "N/A"
                   )}
+                  <button className="buttonyellow" onClick={() => goToOtherProfile(element.id)}>Detail</button>
                   <span>User Name: {element.lastName + " " + element.firstName}</span>
                   <span>PhoneNumber: {element.phoneNumber}</span>
                   <spand>{element.description}</spand>
+                  <button className="buttonred" onClick={() => deleteFollow(followid,element.id)}>Unfollow</button>
                 </div>
               ))
             ) : (

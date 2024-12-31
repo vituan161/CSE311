@@ -44,7 +44,7 @@ function NewPostForm({ className, onClose }) {
       address: address,
       Link: "",
       imageurl: [""],
-      description: [description],
+      description: description,
       design: designArray,
       legality: legality,
       type: type,
@@ -65,7 +65,7 @@ function NewPostForm({ className, onClose }) {
     formdata.append("area", area);
     formdata.append("address", address);
     formdata.append("Link", "none");
-    formdata.append("Description", JSON.stringify([description]));
+    formdata.append("Description", description);
     formdata.append("legality", legality);
     formdata.append("type", type);
     formdata.append("dateCreated", current);
