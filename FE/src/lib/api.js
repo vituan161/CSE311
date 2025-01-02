@@ -41,6 +41,7 @@ const getProfile = async (token) => {
         Authorization: `Bearer ${token}`,
       },
     })
+    console.log("Profile:"+response.data);
     return response.data;
   } catch (error) {
     console.error("Get profile failed:", error);

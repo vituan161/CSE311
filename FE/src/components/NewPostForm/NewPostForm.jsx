@@ -93,7 +93,6 @@ function NewPostForm({ className, onClose }) {
         {
           headers: {
             Authorization: `Bearer ${token.value}`,
-
             "Content-Type": "multipart/form-data",
           },
         }
@@ -366,9 +365,76 @@ function NewPostForm({ className, onClose }) {
                 <button type="button" onClick={onClose} className="close-btn">
                   Close
                 </button>
+                <button
+    type="button"
+    className="news-btn"
+    onClick={() => setIsNewsFormOpen(true)}
+  >
+    Add News
+  </button>
               </div>
             </div>
           </form>
+        </div>
+      </div>
+      {isNewsFormOpen && <NewsForm onClose={() => setIsNewsFormOpen(false)} />}
+    </div>
+  );
+}
+function NewsForm({ onClose }) {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState([""]);
+  const [imageUrls, setImageUrls] = useState([""]);
+
+  const handleAddContent = () => setContent([...content, ""]);
+  const handleAddImageUrl = () => setImageUrls([...imageUrls, ""]);
+
+  return (
+    <div className="news-form-modal">
+      <div className="news-form-content">
+        <h2>Add News</h2>
+        <label htmlFor="news-title">Title</label>
+        <input
+          type="text"
+          id="news-title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        
+        <label>Content</label>
+        {content.map((text, index) => (
+          <textarea
+            key={index}
+            value={text}
+            onChange={(e) =>
+              setContent(content.map((c, i) => (i === index ? e.target.value : c)))
+            }
+          />
+        ))}
+        <button type="button" onClick={handleAddContent}>
+          Add Content
+        </button>
+        
+        <label>Image URLs</label>
+        {imageUrls.map((url, index) => (
+          <input
+            key={index}
+            type="text"
+            value={url}
+            onChange={(e) =>
+              setImageUrls(imageUrls.map((img, i) => (i === index ? e.target.value : img)))
+            }
+          />
+        ))}
+        <button type="button" onClick={handleAddImageUrl}>
+          Add Image URL
+        </button>
+        
+        <div className="form-actions">
+          <button type="button" onClick={onClose}>
+            Close
+          </button>
+          <button type="button">Post</button>
         </div>
       </div>
     </div>

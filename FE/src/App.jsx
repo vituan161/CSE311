@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Layout from "./pages/layout/layout";
 import Login from "./pages/login/login";
 import SinglePage from "./pages/singlePage/singlePage";
+import SingleNewsPage from "./pages/singlePage/newsSinglePage";
 import SignUp from "./pages/signup/signup";
 import ProfilePage from "./pages/profile/profilePage";
 import NewsPage from "./pages/newsPage/newsPage";
@@ -82,6 +83,10 @@ function App() {
         {
           path: "/otherProfile",
           element: <OtherProfile />,
+        },
+        {
+          path: "/news/:id",
+          element: <SingleNewsPage />,
         },
       ],
     },

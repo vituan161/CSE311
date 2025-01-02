@@ -30,7 +30,7 @@ function SinglePage() {
       const response = await axios.get(
         "https://localhost:7215/api/RealEstates/" + id
       );
-      console.log(response.data);
+      // console.log(response.data);
       setPost(response.data);
       setImages(response.data.imageurl);
       setDesign(response.data.design);
